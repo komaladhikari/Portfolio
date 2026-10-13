@@ -360,6 +360,7 @@ h1 {
 
 .about-content {
   max-width: 900px;
+  align-self: start;
 }
 
 .section-label {
@@ -471,6 +472,343 @@ h1 {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.8;
+}
+
+/* Projects section */
+.projects-section {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  padding: clamp(90px, 8vw, 135px) clamp(28px, 6vw, 105px);
+  background:
+    radial-gradient(circle at 18% 88%, rgba(239, 173, 217, 0.5), transparent 30%),
+    linear-gradient(180deg, #ab9cde 0%, #bba0db 55%, #d1a6d5 100%);
+}
+
+.projects-heading {
+  margin-bottom: 62px;
+  text-align: center;
+}
+
+.projects-heading h2 {
+  margin: 10px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(52px, 5.5vw, 82px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.project-grid {
+  width: min(100%, 1500px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  margin: 0 auto;
+}
+
+.project-card {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 42px;
+  background: rgba(244, 233, 255, 0.86);
+  box-shadow: 0 22px 50px rgba(70, 50, 112, 0.13);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 65px rgba(70, 50, 112, 0.2);
+}
+
+.project-visual {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.project-visual.rose {
+  background:
+    radial-gradient(circle at 74% 28%, rgba(255, 255, 255, 0.34), transparent 4%),
+    linear-gradient(145deg, #e5b5dd, #ddb6e4);
+}
+
+.project-visual.violet {
+  background:
+    radial-gradient(circle at 64% 25%, rgba(255, 255, 255, 0.4), transparent 4%),
+    linear-gradient(145deg, #bba2de, #c8aee3);
+}
+
+.project-visual.future {
+  height: 235px;
+  background:
+    radial-gradient(circle at 78% 25%, rgba(255, 255, 255, 0.45), transparent 3%),
+    linear-gradient(135deg, #e1c9ef, #d9c3ea);
+}
+
+.project-number {
+  position: absolute;
+  left: 40px;
+  bottom: 24px;
+  z-index: 2;
+  font-family: 'Gilda Display', serif;
+  font-size: 54px;
+  color: rgba(66, 53, 91, 0.32);
+}
+
+.card-sparkle {
+  position: absolute;
+  z-index: 2;
+  top: -5px;
+  left: -2px;
+  color: #fff9de;
+  font-size: 38px;
+}
+
+.visual-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 55%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.visual-orbit::before,
+.visual-orbit::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+
+.visual-orbit::before {
+  inset: 18%;
+}
+
+.visual-orbit::after {
+  inset: 38%;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.project-info {
+  padding: 44px 46px 42px;
+}
+
+.project-info h3 {
+  margin: 0;
+  font-family: 'Gilda Display', serif;
+  font-size: 39px;
+  font-weight: 400;
+}
+
+.project-info > p {
+  min-height: 56px;
+  margin: 18px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(64, 53, 84, 0.78);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.project-tags span {
+  padding: 8px 17px;
+  border: 1px solid rgba(73, 57, 113, 0.28);
+  border-radius: 999px;
+  background: rgba(180, 146, 220, 0.22);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.project-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.project-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #67549c;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.project-links a:hover {
+  color: #3f315f;
+}
+
+.project-links svg {
+  width: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.project-links span {
+  transition: transform 0.2s ease;
+}
+
+.project-links a:hover span {
+  transform: translate(2px, -2px);
+}
+
+.future-card {
+  grid-column: 1 / -1;
+}
+
+.future-card .project-info > p {
+  min-height: 0;
+}
+
+/* Writing section */
+.writing-section {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(90px, 8vw, 135px) clamp(28px, 5vw, 90px);
+  background:
+    radial-gradient(circle at 82% 15%, rgba(165, 143, 218, 0.45), transparent 34%),
+    linear-gradient(180deg, #ae9cdd 0%, #c3a2d9 58%, #d9a9d4 100%);
+}
+
+.writing-heading {
+  max-width: 900px;
+  text-align: center;
+}
+
+.writing-heading h2 {
+  margin: 10px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(52px, 5.5vw, 84px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.writing-heading > p:last-child {
+  max-width: 640px;
+  margin: 22px auto 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(64, 53, 84, 0.72);
+}
+
+.writing-grid {
+  width: min(100%, 1650px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 42px;
+  margin-top: 72px;
+}
+
+.writing-card {
+  min-height: 410px;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 50px 44px;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  border-radius: 42px;
+  background: rgba(245, 237, 255, 0.88);
+  box-shadow: 0 20px 45px rgba(71, 50, 111, 0.12);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.writing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 60px rgba(71, 50, 111, 0.2);
+}
+
+.writing-status {
+  color: #7463ac;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.writing-card h3 {
+  margin: 30px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(28px, 2.3vw, 39px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.32;
+}
+
+.writing-card p {
+  margin: 27px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(64, 53, 84, 0.76);
+}
+
+.writing-card a {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 32px;
+  color: #7864b4;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.writing-card a span,
+.substack-button span {
+  transition: transform 0.2s ease;
+}
+
+.writing-card a:hover span,
+.substack-button:hover span {
+  transform: translate(2px, -2px);
+}
+
+.substack-button {
+  min-width: 280px;
+  height: 62px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 74px;
+  padding: 0 28px;
+  border: 1.5px solid rgba(64, 53, 84, 0.42);
+  border-radius: 999px;
+  background: rgba(242, 222, 246, 0.24);
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.substack-button:hover {
+  transform: translateY(-3px);
+  background: rgba(247, 233, 251, 0.48);
 }
 
 /* Animation */
@@ -586,6 +924,38 @@ h1 {
   .about-details h3 {
     font-size: 25px;
   }
+
+  .projects-section {
+    padding-right: 45px;
+    padding-left: 45px;
+  }
+
+  .project-grid {
+    gap: 30px;
+  }
+
+  .project-visual {
+    height: 240px;
+  }
+
+  .project-info {
+    padding: 34px;
+  }
+
+  .writing-section {
+    padding-right: 35px;
+    padding-left: 35px;
+  }
+
+  .writing-grid {
+    gap: 24px;
+  }
+
+  .writing-card {
+    min-height: 390px;
+    padding: 38px 32px;
+    border-radius: 34px;
+  }
 }
 
 /* Small phones */
@@ -690,6 +1060,81 @@ h1 {
 
   .about-notes {
     font-size: 15px;
+  }
+
+  .projects-section {
+    padding: 80px 18px;
+  }
+
+  .projects-heading {
+    margin-bottom: 42px;
+  }
+
+  .projects-heading h2 {
+    font-size: clamp(46px, 14vw, 62px);
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .project-card,
+  .future-card {
+    grid-column: auto;
+    border-radius: 30px;
+  }
+
+  .project-visual,
+  .project-visual.future {
+    height: 210px;
+  }
+
+  .project-number {
+    left: 28px;
+    font-size: 46px;
+  }
+
+  .project-info {
+    padding: 30px 28px 32px;
+  }
+
+  .project-info h3 {
+    font-size: 34px;
+  }
+
+  .project-info > p {
+    min-height: 0;
+  }
+
+  .writing-section {
+    padding: 80px 18px;
+  }
+
+  .writing-heading h2 {
+    font-size: clamp(45px, 13.5vw, 62px);
+  }
+
+  .writing-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .writing-card {
+    min-height: 340px;
+    padding: 34px 28px;
+    border-radius: 30px;
+  }
+
+  .writing-card h3 {
+    font-size: 31px;
+  }
+
+  .substack-button {
+    width: min(100%, 330px);
+    min-width: 0;
+    margin-top: 50px;
   }
 }
 
