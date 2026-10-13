@@ -1,130 +1,122 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
+import heroSky from './assets/dream-sky-hero.png'
 
-type Wish = { id: number; text: string; x: number; y: number }
-
-const seedWishes: Wish[] = [
-  { id: 1, text: 'to find the place that feels like home', x: 17, y: 31 },
-  { id: 2, text: 'for one more summer together', x: 68, y: 23 },
-  { id: 3, text: 'to be brave enough to begin', x: 79, y: 58 },
-  { id: 4, text: 'that mom gets better soon', x: 35, y: 69 },
-  { id: 5, text: 'to make something that lasts', x: 56, y: 48 },
-]
-
-const stars = Array.from({ length: 76 }, (_, i) => ({
-  x: (i * 47 + 11) % 100,
-  y: (i * 67 + 7) % 88,
-  size: i % 13 === 0 ? 2.2 : i % 5 === 0 ? 1.4 : 0.8,
-  delay: (i % 12) * 0.37,
-}))
+const links = ['Home', 'About', 'Projects', 'Research', 'Writing', 'Shared Sky', 'Contact']
 
 function App() {
-  const [shooting, setShooting] = useState(false)
-  const [caught, setCaught] = useState(false)
-  const [wish, setWish] = useState('')
-  const [selectedWish, setSelectedWish] = useState<Wish | null>(null)
-  const [wishes, setWishes] = useState<Wish[]>(() => {
-    const saved = localStorage.getItem('shared-sky-wishes')
-    return saved ? [...seedWishes, ...JSON.parse(saved)] : seedWishes
-  })
-
-  const sharedCount = 12847 + Math.max(0, wishes.length - seedWishes.length)
-  const starStyle = useMemo(() => ({
-    left: `${18 + Math.random() * 54}%`,
-    top: `${15 + Math.random() * 34}%`,
-    transform: `rotate(${8 + Math.random() * 12}deg)`,
-  }), [shooting])
-
-  useEffect(() => {
-    let hideTimer: number
-    const showTimer = window.setTimeout(() => {
-      setShooting(true)
-      hideTimer = window.setTimeout(() => setShooting(false), 5200)
-    }, 2400)
-    return () => { window.clearTimeout(showTimer); window.clearTimeout(hideTimer) }
-  }, [])
-
-  useEffect(() => {
-    if (shooting || caught) return
-    const timer = window.setTimeout(() => setShooting(true), 7000 + Math.random() * 6000)
-    return () => window.clearTimeout(timer)
-  }, [shooting, caught])
-
-  const catchStar = () => { setShooting(false); setCaught(true) }
-
-  const releaseWish = () => {
-    const text = wish.trim()
-    if (!text) return
-    const newWish: Wish = { id: Date.now(), text, x: 22 + Math.random() * 56, y: 20 + Math.random() * 54 }
-    const personalWishes = [...wishes.filter(w => w.id > 10), newWish]
-    localStorage.setItem('shared-sky-wishes', JSON.stringify(personalWishes))
-    setWishes([...wishes, newWish])
-    setSelectedWish(newWish)
-    setWish('')
-    setCaught(false)
-  }
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <main className="sky-shell">
-      <div className="aurora" />
-      <div className="stars" aria-hidden="true">
-        {stars.map((star, i) => <i key={i} style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size, animationDelay: `${star.delay}s` }} />)}
-      </div>
-
-      <nav>
-        <a className="brand" href="#top"><span>✦</span> Shared Sky</a>
-        <div className="nav-links"><a href="#how">How it works</a><a href="#wishes">Explore wishes</a></div>
-        <button className="sound" aria-label="Sound ambience unavailable">◖))</button>
+    <main className="home" id="home" style={{ '--hero-image': `url(${heroSky})` } as React.CSSProperties}>
+      <nav className="navbar" aria-label="Main navigation">
+        <button className="menu-toggle" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><i /><i /></button>
+        <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+          {links.map((link) => (
+            <a key={link} href={link === 'Home' ? '#home' : `#${link.toLowerCase().replace(' ', '-')}`} onClick={() => setMenuOpen(false)}>{link}</a>
+          ))}
+        </div>
       </nav>
 
-      <section className="hero" id="top">
-        <div className="eyebrow"><span className="pulse" /> The sky is listening</div>
-        <h1>Somewhere,<br />a star is <em>falling.</em></h1>
-        <p className="intro">Catch it before it disappears. Make a wish.<br />Leave a little light in the sky for someone else to find.</p>
-        <div className="waiting"><span className="orb">✦</span><span><b>Wait for it...</b><small>A shooting star appears when you least expect it.</small></span></div>
-        <span className="scroll-note">Keep your eyes on the sky <b>↓</b></span>
-      </section>
-
-      {shooting && !caught && (
-        <button className="shooting-star" style={starStyle} onClick={catchStar} aria-label="Catch the shooting star">
-          <span /> <b>catch me</b>
-        </button>
-      )}
-
-      <section className="how" id="how">
-        <span className="section-number">01 — The ritual</span>
-        <h2>One fleeting moment.<br /><i>One honest wish.</i></h2>
-        <div className="steps">
-          <article><span className="step-icon">⌁</span><b>01</b><h3>Watch</h3><p>Stay still. Shooting stars arrive without warning and vanish in a breath.</p></article>
-          <article><span className="step-icon">✦</span><b>02</b><h3>Catch</h3><p>Tap the star while it crosses your sky. You only get one chance.</p></article>
-          <article><span className="step-icon">◌</span><b>03</b><h3>Wish</h3><p>Write what you carry quietly. Release it into the shared night.</p></article>
-        </div>
-      </section>
-
-      <section className="wish-field" id="wishes">
-        <div className="wish-copy"><span className="section-number">02 — The constellation</span><h2>A sky made of<br /><i>everyone’s hope.</i></h2><p>{sharedCount.toLocaleString()} wishes are glowing here tonight. Touch a star to hear what someone, somewhere, is hoping for.</p></div>
-        <div className="constellation">
-          {wishes.map((item, index) => (
-            <button key={item.id} className={`wish-star ${item.id > 10 ? 'mine' : ''}`} style={{ left: `${item.x}%`, top: `${item.y}%`, animationDelay: `${index * .4}s` }} onClick={() => setSelectedWish(item)} aria-label="Read this wish">✦</button>
-          ))}
-          {selectedWish && <div className="wish-note"><button onClick={() => setSelectedWish(null)}>×</button><span>someone wished</span><p>“{selectedWish.text}”</p></div>}
-          <div className="orbit one" /><div className="orbit two" />
-        </div>
-      </section>
-
-      <footer><span>© Tonight, wherever you are</span><span className="footer-mark">✦</span><span>We all look up at the same sky.</span></footer>
-
-      {caught && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="wish-title">
-          <div className="wish-modal">
-            <button className="close" onClick={() => setCaught(false)}>×</button>
-            <span className="caught-star">✦</span><small>You caught it</small>
-            <h2 id="wish-title">What do you<br /><i>wish for?</i></h2>
-            <textarea autoFocus maxLength={120} value={wish} onChange={e => setWish(e.target.value)} placeholder="Write it softly..." />
-            <div className="wish-actions"><span>{wish.length} / 120</span><button onClick={releaseWish} disabled={!wish.trim()}>Release into the sky <b>↗</b></button></div>
-            <p>Your wish is anonymous. Just a small light among thousands.</p>
+      <section className="hero" aria-labelledby="intro-title">
+        <div className="hero-copy">
+          <p className="hello">Hello, sky wanderer.</p>
+          <h1 id="intro-title">Hi, I’m Komal.</h1>
+          <p className="tagline">A curious mind somewhere between code, research, and<br className="desktop-break" /> everything in between.</p>
+          <div className="actions">
+            <a className="button primary" href="#projects">Explore My Work</a>
+            <a className="button secondary" href="#about">A Little About Me</a>
           </div>
         </div>
-      )}
+        <a className="scroll-cue" href="#about" aria-label="Scroll to about section">
+          <span>Scroll to discover</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 9 7 7 7-7" /></svg>
+        </a>
+      </section>
+
+      <section className="about-section" id="about" aria-labelledby="about-title">
+        <div className="about-photo-column">
+          <div className="about-photo-frame">
+            {/* Add public/about-photo.jpg and it will appear here automatically. */}
+            <div className="photo-placeholder" aria-hidden="true">
+              <svg viewBox="0 0 64 64">
+                <circle cx="32" cy="22" r="10" />
+                <path d="M14 56v-7c0-9 8-16 18-16s18 7 18 16v7" />
+              </svg>
+              <span>Add your photo</span>
+              <small>public/about-photo.jpg</small>
+            </div>
+            <img
+              className="about-photo"
+              src="/about-photo.jpg"
+              alt="Komal Adhikari"
+              onError={(event) => {
+                event.currentTarget.style.display = 'none'
+              }}
+            />
+            <span className="photo-sparkle" aria-hidden="true">✦</span>
+          </div>
+        </div>
+
+        <div className="about-content">
+          <p className="section-label">About</p>
+          <h2 id="about-title">A Little About This Human</h2>
+
+          <p className="about-intro">
+            I’m a Computer Science student at Texas State University, minoring in
+            Mathematics. I enjoy building thoughtful software, asking questions,
+            and exploring ideas where technology meets creativity. I’m especially
+            interested in artificial intelligence, trustworthy machine learning,
+            research, and software engineering.
+          </p>
+
+          <div className="about-details">
+            <div>
+              <h3>Education</h3>
+              <p>
+                B.S. Computer Science<br />
+                Minor in Mathematics<br />
+                Texas State University<br />
+                Expected May 2028
+              </p>
+            </div>
+            <div>
+              <h3>Curious about</h3>
+              <p>
+                Artificial Intelligence · Trustworthy Machine Learning · Research ·
+                Software Engineering · Data Visualization · Creative Writing
+              </p>
+            </div>
+          </div>
+
+          <div className="skill-list" aria-label="Technical skills">
+            {['Python', 'C++', 'JavaScript', 'TypeScript', 'React', 'Angular', 'Node.js', 'Machine Learning', 'Git'].map((skill) => (
+              <span key={skill}>{skill}</span>
+            ))}
+          </div>
+
+          <ul className="about-notes">
+            <li>I like connecting research ideas with practical implementations.</li>
+            <li>I write and edit stories about education, mentorship, and community.</li>
+            <li>Cloud-watching is still one of my favorite ways to reset.</li>
+          </ul>
+
+          <a
+            className="resume-button"
+            href="/Komal-Adhikari-Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3h7l4 4v14H7z" />
+              <path d="M14 3v5h5M10 13h5M10 17h5" />
+            </svg>
+            View Resume
+          </a>
+        </div>
+      </section>
+
+      <div className="edge-sparkle top" aria-hidden="true">✦</div>
+      <div className="edge-sparkle bottom" aria-hidden="true">✦</div>
     </main>
   )
 }
