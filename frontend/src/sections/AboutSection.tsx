@@ -4,7 +4,7 @@ export function AboutSection() {
   const skills = ['Python', 'C++', 'JavaScript', 'TypeScript', 'React', 'Angular', 'Node.js', 'Machine Learning', 'Git']
 
   return (
-    <section className="about-section" id="about" aria-labelledby="about-title">
+    <section className="about-section" id="about" data-reveal aria-labelledby="about-title">
       <div className="about-photo-column">
         <div className="about-photo-frame">
           {/* Add public/about-photo.jpg and it will appear here automatically. */}

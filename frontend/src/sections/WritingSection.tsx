@@ -4,7 +4,7 @@ import { SUBSTACK_URL, writingPosts } from '../data/writing'
 
 export function WritingSection() {
   return (
-    <section className="writing-section" id="writing" aria-labelledby="writing-title">
+    <section className="writing-section" id="writing" data-reveal aria-labelledby="writing-title">
       <header className="writing-heading">
         <SectionLabel>Writing</SectionLabel>
         <h2 id="writing-title">Little Pieces of My Mind</h2>

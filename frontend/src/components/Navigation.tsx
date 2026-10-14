@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { navigationLinks } from '../data/navigation'
+import type { RouteName } from '../hooks/useHashRoute'
 
-export function Navigation() {
+export function Navigation({ activeRoute }: { activeRoute: RouteName }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -20,7 +21,9 @@ export function Navigation() {
         {navigationLinks.map((link) => (
           <a
             key={link}
-            href={link === 'Home' ? '#home' : `#${link.toLowerCase().replace(' ', '-')}`}
+            href={link === 'Home' ? '#/home' : `#/${link.toLowerCase().replace(' ', '-')}`}
+            className={activeRoute === link.toLowerCase().replace(' ', '-') ? 'active' : ''}
+            aria-current={activeRoute === link.toLowerCase().replace(' ', '-') ? 'page' : undefined}
             onClick={() => setMenuOpen(false)}
           >
             {link}

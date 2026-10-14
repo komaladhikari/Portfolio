@@ -9,11 +9,11 @@ export function HeroSection() {
           <br className="desktop-break" /> everything in between.
         </p>
         <div className="actions">
-          <a className="button primary" href="#projects">Explore My Work</a>
-          <a className="button secondary" href="#about">A Little About Me</a>
+          <a className="button primary" href="#/projects">Explore My Work</a>
+          <a className="button secondary" href="#/about">A Little About Me</a>
         </div>
       </div>
-      <a className="scroll-cue" href="#about" aria-label="Scroll to about section">
+      <a className="scroll-cue" href="#shared-sky" aria-label="Scroll to Shared Sky">
         <span>Scroll to discover</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 9 7 7 7-7" /></svg>
       </a>

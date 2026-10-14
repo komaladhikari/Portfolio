@@ -56,9 +56,171 @@ button {
   );
 }
 
+.route-home,
+.route-shared-sky {
+  background-color: #41375f;
+  background-size: auto 100svh;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+.route-page-shell {
+  min-height: 100svh;
+  padding-top: 76px;
+  background:
+    radial-gradient(circle at 78% 8%, rgba(166, 154, 219, 0.48), transparent 34%),
+    linear-gradient(145deg, #c8b6ed, #d7afe2 62%, #e3b5dc);
+}
+
+[data-reveal].reveal-ready {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Home-to-night transition */
+.sky-transition {
+  position: relative;
+  z-index: 2;
+  height: clamp(280px, 34vw, 470px);
+  overflow: hidden;
+  margin-top: -1px;
+  background: linear-gradient(
+    180deg,
+    rgba(182, 157, 214, 0) 0%,
+    rgba(143, 120, 182, 0.62) 33%,
+    rgba(89, 71, 129, 0.9) 70%,
+    #41375f 100%
+  );
+}
+
+.sky-transition::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% -10%, rgba(230, 185, 221, 0.28), transparent 58%);
+}
+
+.sky-transition i {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #fff7e8;
+  box-shadow: 0 0 6px rgba(255, 247, 232, 0.7);
+  opacity: 0;
+  animation: evening-star 3.4s ease-in-out infinite;
+}
+
+.sky-transition span {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  transform: translateX(-50%);
+  color: rgba(255, 247, 232, 0.56);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@keyframes evening-star {
+  0%, 100% { opacity: 0.14; transform: scale(0.7); }
+  50% { opacity: 0.78; transform: scale(1.2); }
+}
+
+/* Dedicated route pages */
+.content-page {
+  min-height: calc(100svh - 76px);
+  padding: clamp(90px, 10vw, 150px) clamp(26px, 9vw, 150px);
+}
+
+.content-page h1 {
+  max-width: 950px;
+  margin: 12px 0 0;
+  font-size: clamp(54px, 7vw, 104px);
+}
+
+.page-lede {
+  max-width: 760px;
+  margin: 34px 0 0;
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.65;
+}
+
+.research-card {
+  max-width: 900px;
+  margin-top: 62px;
+  padding: clamp(34px, 5vw, 62px);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 42px;
+  background: rgba(245, 237, 255, 0.65);
+  box-shadow: 0 24px 60px rgba(70, 50, 112, 0.12);
+}
+
+.research-card > span {
+  color: #7463ac;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.research-card h2 {
+  margin: 18px 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 400;
+}
+
+.research-card p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.contact-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 52px;
+}
+
+.contact-links a {
+  min-width: 190px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  border: 1px solid rgba(64, 53, 84, 0.34);
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.contact-links a:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 247, 232, 0.28);
+}
+
 /* Navigation */
 .navbar {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   top: 0px;
   left: 0%;
@@ -104,9 +266,14 @@ button {
 }
 
 .nav-links a:hover::after,
-.nav-links a:focus-visible::after {
+.nav-links a:focus-visible::after,
+.nav-links a.active::after {
   left: 0;
   right: 0;
+}
+
+.nav-links a.active {
+  color: #342946;
 }
 
 .menu-toggle {
@@ -1040,6 +1207,7 @@ h1 {
     radial-gradient(circle at 70% 25%, rgba(166, 154, 219, 0.24), transparent 32%),
     linear-gradient(180deg, #41375f, #241d3e);
   text-align: center;
+  scroll-margin-top: 76px;
 }
 
 .sky-heading h2 {

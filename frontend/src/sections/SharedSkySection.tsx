@@ -15,7 +15,7 @@ export function SharedSkySection() {
   const [selected, setSelected] = useState<Wish | null>(null)
 
   return (
-    <section className="shared-sky-section" id="shared-sky" aria-labelledby="sky-title">
+    <section className="shared-sky-section" id="shared-sky" data-reveal aria-labelledby="sky-title">
       <header className="sky-heading">
         <SectionLabel>Shared Sky</SectionLabel>
         <h2 id="sky-title">Every Wish Leaves a Light</h2>
