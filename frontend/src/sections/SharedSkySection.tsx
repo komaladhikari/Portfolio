@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { SectionLabel } from '../components/SectionLabel'
-import { WishComposer } from '../components/wishes/WishComposer'
 import { useWishStore } from '../hooks/useWishStore'
 import type { Wish } from '../types/wish'
 
@@ -43,7 +42,6 @@ export function SharedSkySection() {
           </div>
         )}
       </div>
-      <WishComposer />
     </section>
   )
 }

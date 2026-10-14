@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react'
 import heroSky from './assets/dream-sky-hero.png'
 import { Navigation } from './components/Navigation'
 import { ShootingStarManager } from './components/wishes/ShootingStarManager'
+import { WishComposer } from './components/wishes/WishComposer'
 import { useHashRoute, type RouteName } from './hooks/useHashRoute'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import { WishProvider } from './hooks/useWishStore'
@@ -51,6 +52,7 @@ function Portfolio() {
         <div className="route-page-shell">{page}</div>
       )}
 
+      <WishComposer />
       <ShootingStarManager />
       <div className="edge-sparkle top" aria-hidden="true">✦</div>
     </main>
