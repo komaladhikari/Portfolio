@@ -811,6 +811,340 @@ h1 {
   background: rgba(247, 233, 251, 0.48);
 }
 
+/* Wish composer */
+.make-wish-button {
+  border: 1px solid rgba(255, 247, 232, 0.32);
+  border-radius: 999px;
+  color: #fff7e8;
+  background: rgba(217, 196, 255, 0.14);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.make-wish-button {
+  min-width: 180px;
+  height: 54px;
+  margin-top: 30px;
+  padding: 0 24px;
+}
+
+.wish-dialog-backdrop {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(45, 34, 73, 0.52);
+  backdrop-filter: blur(16px);
+}
+
+.wish-dialog {
+  position: relative;
+  width: min(520px, 100%);
+  padding: 48px;
+  border: 1px solid rgba(255, 247, 232, 0.5);
+  border-radius: 36px;
+  background: linear-gradient(145deg, #d9c4ff, #e6b9dd);
+  box-shadow: 0 30px 90px rgba(44, 29, 77, 0.32);
+  text-align: center;
+}
+
+.wish-dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  border: 0;
+  color: #403554;
+  background: transparent;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.wish-dialog-kicker {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.wish-dialog h2 {
+  margin: 14px 0 26px;
+  font-family: 'Gilda Display', serif;
+  font-size: 42px;
+  font-weight: 400;
+}
+
+.wish-dialog textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 18px;
+  border: 1px solid rgba(64, 53, 84, 0.2);
+  border-radius: 20px;
+  outline: none;
+  color: #403554;
+  background: rgba(255, 247, 232, 0.38);
+  font: 17px/1.5 'DM Sans', sans-serif;
+}
+
+.private-wish {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 18px 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+.submit-wish {
+  min-width: 210px;
+  height: 54px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff7e8;
+  background: #43375d;
+  cursor: pointer;
+}
+
+.submit-wish:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Shooting star interaction */
+.shooting-star-layer {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shooting-star-hit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+  will-change: transform, opacity;
+  animation: meteor-flight var(--duration) cubic-bezier(0.28, 0.62, 0.46, 0.98) forwards;
+}
+
+.meteor {
+  position: absolute;
+  top: 27px;
+  right: 22px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff7e8;
+  box-shadow:
+    0 0 7px 2px #fff7e8,
+    0 0 22px 8px rgba(217, 196, 255, 0.76);
+}
+
+.meteor::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  width: 205px;
+  height: 2px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, rgba(194, 167, 229, 0.28), rgba(255, 247, 232, 0.9));
+  transform-origin: right center;
+}
+
+.meteor i {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 247, 232, 0.5), transparent 70%);
+}
+
+.catch-spark {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff7e8;
+  box-shadow:
+    0 0 0 18px rgba(255, 247, 232, 0.08),
+    0 0 38px 18px rgba(217, 196, 255, 0.72);
+  transform: translate(-50%, -50%);
+  animation: capture-glow 0.9s ease-out forwards;
+}
+
+.granted-message {
+  position: fixed;
+  z-index: 70;
+  right: 24px;
+  bottom: 78px;
+  width: min(340px, calc(100vw - 48px));
+  padding: 26px;
+  border: 1px solid rgba(255, 247, 232, 0.54);
+  border-radius: 24px;
+  background: rgba(217, 196, 255, 0.92);
+  box-shadow: 0 20px 55px rgba(44, 29, 77, 0.25);
+  backdrop-filter: blur(18px);
+}
+
+.shooting-star-hit.reduced-motion-star {
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: none;
+}
+
+.granted-message > button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.granted-message strong {
+  font-family: 'Gilda Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.granted-message p {
+  margin: 10px 0 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.granted-message a {
+  color: #5f4a92;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Shared Sky */
+.shared-sky-section {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  padding: 100px 6vw 70px;
+  color: #fff7e8;
+  background:
+    radial-gradient(circle at 70% 25%, rgba(166, 154, 219, 0.24), transparent 32%),
+    linear-gradient(180deg, #41375f, #241d3e);
+  text-align: center;
+}
+
+.sky-heading h2 {
+  margin: 12px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(48px, 5vw, 76px);
+  font-weight: 400;
+}
+
+.sky-heading > p:last-child {
+  margin: 18px auto 0;
+  color: rgba(255, 247, 232, 0.66);
+}
+
+.shared-sky-field {
+  position: relative;
+  width: min(1100px, 100%);
+  height: 540px;
+  margin: 45px auto 0;
+}
+
+.decorative-star,
+.granted-star {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+}
+
+.decorative-star {
+  background: rgba(255, 247, 232, 0.42);
+  box-shadow: 0 0 5px rgba(255, 247, 232, 0.35);
+}
+
+.granted-star {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  background: #fff7e8;
+  box-shadow:
+    0 0 8px 3px #fff7e8,
+    0 0 24px 9px rgba(217, 196, 255, 0.55);
+  cursor: pointer;
+  animation: wish-pulse 3s ease-in-out infinite;
+}
+
+.sky-wish-note {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  width: min(340px, 90%);
+  padding: 30px;
+  border: 1px solid rgba(255, 247, 232, 0.28);
+  border-radius: 26px;
+  background: rgba(52, 42, 78, 0.9);
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+}
+
+.sky-wish-note button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  color: #fff7e8;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sky-wish-note span {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.sky-wish-note p {
+  margin: 16px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: 25px;
+  line-height: 1.35;
+}
+
+@keyframes meteor-flight {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--sx), var(--sy), 0) rotate(var(--angle));
+  }
+  8% { opacity: 1; }
+  82% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--ex), var(--ey), 0) rotate(var(--angle));
+  }
+}
+
+@keyframes capture-glow {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(0.6); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(2.4); }
+}
+
+@keyframes wish-pulse {
+  50% { transform: scale(1.25); opacity: 0.72; }
+}
+
 /* Animation */
 @keyframes rise {
   from {
