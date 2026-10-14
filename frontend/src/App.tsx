@@ -52,7 +52,7 @@ function Portfolio() {
         <div className="route-page-shell">{page}</div>
       )}
 
-      <WishComposer />
+      <WishComposer isHome={route === 'home'} />
       <ShootingStarManager />
       <div className="edge-sparkle top" aria-hidden="true">✦</div>
     </main>
