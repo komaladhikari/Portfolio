@@ -30,7 +30,7 @@ class Wish(Base):
     )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
-    text: Mapped[str] = mapped_column(String(180), nullable=False)
+    text: Mapped[str] = mapped_column(String(200), nullable=False)
     status: Mapped[WishStatus] = mapped_column(
         Enum(
             WishStatus,

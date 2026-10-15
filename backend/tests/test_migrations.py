@@ -26,4 +26,8 @@ def test_migrations_create_wishes_table(tmp_path: Path) -> None:
         "sky_y",
         "claim_token_hash",
     }
+    text_column = next(
+        column for column in inspector.get_columns("wishes") if column["name"] == "text"
+    )
+    assert text_column["type"].length == 200
     engine.dispose()
