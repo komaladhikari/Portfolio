@@ -1199,6 +1199,13 @@ h1 {
   cursor: not-allowed;
 }
 
+.wish-dialog-error {
+  margin: 12px 0 0;
+  color: #6f294d;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 @keyframes wish-dialog-arrive {
   from { opacity: 0; transform: scale(0.97) translateY(5px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
@@ -1292,6 +1299,34 @@ h1 {
   backdrop-filter: blur(18px);
 }
 
+.wish-error-message {
+  position: fixed;
+  z-index: 71;
+  right: 24px;
+  bottom: 78px;
+  width: min(340px, calc(100vw - 48px));
+  padding: 24px;
+  border: 1px solid rgba(255, 247, 232, 0.54);
+  border-radius: 24px;
+  background: rgba(217, 196, 255, 0.95);
+  box-shadow: 0 20px 55px rgba(44, 29, 77, 0.25);
+}
+
+.wish-error-message > button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wish-error-message p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .shooting-star-hit.reduced-motion-star {
   top: 20%;
   left: 50%;
@@ -1360,6 +1395,16 @@ h1 {
   width: min(1100px, 100%);
   height: 540px;
   margin: 36px auto 0;
+}
+
+.sky-loading {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  margin: 0;
+  color: rgba(255, 247, 232, 0.65);
+  font-size: 12px;
+  transform: translateX(-50%);
 }
 
 .decorative-star,

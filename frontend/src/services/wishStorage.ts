@@ -1,23 +1,29 @@
-import type { Wish } from '../types/wish'
+import type { WishCredential } from '../types/wish'
 
-const STORAGE_KEY = 'komal-portfolio-wishes'
+const STORAGE_KEY = 'komal-portfolio-wish-credentials'
+const LEGACY_STORAGE_KEY = 'komal-portfolio-wishes'
 
-export function loadWishes(): Wish[] {
+function isWishCredential(value: unknown): value is WishCredential {
+  if (!value || typeof value !== 'object') return false
+  const credential = value as Record<string, unknown>
+  return typeof credential.id === 'string' && typeof credential.claimToken === 'string'
+}
+
+export function loadWishCredentials(): WishCredential[] {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]') as Wish[]
+    const parsed: unknown = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
+    return Array.isArray(parsed) ? parsed.filter(isWishCredential) : []
   } catch {
     return []
+  } finally {
+    try {
+      localStorage.removeItem(LEGACY_STORAGE_KEY)
+    } catch {
+      // Storage may be disabled; callers still receive an empty credential list.
+    }
   }
 }
 
-export function saveWishes(wishes: Wish[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(wishes))
-}
-
-export function stableStarPosition(id: string) {
-  const hash = [...id].reduce((value, character) => ((value * 31) + character.charCodeAt(0)) >>> 0, 7)
-  return {
-    x: 8 + (hash % 84),
-    y: 12 + ((hash >>> 8) % 70),
-  }
+export function saveWishCredentials(credentials: WishCredential[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials))
 }

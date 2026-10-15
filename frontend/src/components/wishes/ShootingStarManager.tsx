@@ -5,10 +5,11 @@ import { GrantedMessage } from './GrantedMessage'
 type Flight = { id: number; sx: number; sy: number; ex: number; ey: number; angle: number; duration: number }
 
 export function ShootingStarManager() {
-  const { pendingWish, grantWish } = useWishStore()
+  const { clearError, error, pendingWish, grantWish } = useWishStore()
   const [flight, setFlight] = useState<Flight | null>(null)
   const [caught, setCaught] = useState<{ x: number; y: number } | null>(null)
   const [showGranted, setShowGranted] = useState(false)
+  const [granting, setGranting] = useState(false)
   const timer = useRef<number | null>(null)
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -40,16 +41,19 @@ export function ShootingStarManager() {
     return () => document.removeEventListener('visibilitychange', handleVisibility)
   }, [flight, pendingWish, spawn])
 
-  const catchStar = (event?: React.PointerEvent<HTMLButtonElement>) => {
-    if (!pendingWish) return
-    if (!grantWish(pendingWish.id)) return
+  const catchStar = async (event?: React.PointerEvent<HTMLButtonElement>) => {
+    if (!pendingWish || granting) return
+    setGranting(true)
+    const granted = await grantWish(pendingWish.id)
+    setGranting(false)
+    if (!granted) return
     setCaught(event ? { x: event.clientX, y: event.clientY } : { x: window.innerWidth / 2, y: window.innerHeight / 2 })
     setFlight(null)
     window.setTimeout(() => setCaught(null), 900)
     setShowGranted(true)
   }
 
-  if (!pendingWish && !showGranted && !caught) return null
+  if (!pendingWish && !showGranted && !caught && !error) return null
 
   const style = flight ? {
     '--sx': `${flight.sx}px`,
@@ -70,6 +74,7 @@ export function ShootingStarManager() {
             onPointerDown={catchStar}
             onAnimationEnd={reducedMotion ? undefined : () => setFlight(null)}
             aria-label="Catch the shooting star and grant your wish"
+            disabled={granting}
           >
             <span className="meteor"><i /></span>
           </button>
@@ -77,6 +82,13 @@ export function ShootingStarManager() {
         {caught && <span className="catch-spark" style={{ left: caught.x, top: caught.y }} aria-hidden="true" />}
       </div>
       {showGranted && <GrantedMessage onClose={() => setShowGranted(false)} />}
+      {error && (
+        <aside className="wish-error-message" role="alert">
+          <button onClick={clearError} aria-label="Dismiss error">×</button>
+          <strong>The star slipped away.</strong>
+          <p>{error}</p>
+        </aside>
+      )}
     </>
   )
 }

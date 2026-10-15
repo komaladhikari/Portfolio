@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SectionLabel } from '../components/SectionLabel'
 import { useWishStore } from '../hooks/useWishStore'
-import type { Wish } from '../types/wish'
+import type { SkyWish } from '../types/wish'
 
 const decorativeStars = Array.from({ length: 52 }, (_, index) => ({
   x: (index * 47 + 9) % 96,
@@ -10,8 +10,8 @@ const decorativeStars = Array.from({ length: 52 }, (_, index) => ({
 }))
 
 export function SharedSkySection() {
-  const { grantedWishes } = useWishStore()
-  const [selected, setSelected] = useState<Wish | null>(null)
+  const { grantedWishes, isLoadingSky } = useWishStore()
+  const [selected, setSelected] = useState<SkyWish | null>(null)
 
   return (
     <section className="shared-sky-section" id="shared-sky" data-reveal aria-labelledby="sky-title">
@@ -21,7 +21,7 @@ export function SharedSkySection() {
         <p>Catch your shooting star and your wish will find a permanent place here.</p>
       </header>
 
-      <div className="shared-sky-field">
+      <div className="shared-sky-field" aria-busy={isLoadingSky}>
         {decorativeStars.map((star, index) => (
           <i className="decorative-star" key={index} style={{ left: `${star.x}%`, top: `${star.y}%`, width: star.size, height: star.size }} />
         ))}
@@ -34,11 +34,12 @@ export function SharedSkySection() {
             aria-label="Read this granted wish"
           />
         ))}
+        {isLoadingSky && <p className="sky-loading" role="status">Gathering starlight...</p>}
         {selected && (
           <div className="sky-wish-note">
             <button onClick={() => setSelected(null)} aria-label="Close">×</button>
             <span>Someone wished</span>
-            <p>{selected.isPrivate ? 'Someone wished for something beautiful here.' : `“${selected.text}”`}</p>
+            <p>{selected.text}</p>
           </div>
         )}
       </div>

@@ -1,0 +1,65 @@
+import type { SkyWish, WishStatus, WishVisibility } from '../types/wish'
+
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000').replace(/\/$/, '')
+
+type CreatedWish = { id: string; claim_token: string; status: WishStatus }
+type WishStatusResponse = {
+  id: string
+  status: WishStatus
+  created_at: string
+  granted_at: string | null
+}
+type GrantedWish = { id: string; status: WishStatus; granted_at: string }
+type SharedSkyResponse = {
+  stars: SkyWish[]
+  limit: number
+  offset: number
+}
+
+export class WishApiError extends Error {
+  constructor(public status: number, message: string) {
+    super(message)
+    this.name = 'WishApiError'
+  }
+}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${path}`, init)
+  if (!response.ok) {
+    let message = 'The sky could not be reached. Please try again.'
+    try {
+      const body = await response.json() as { detail?: string }
+      if (body.detail) message = body.detail
+    } catch {
+      // Keep the safe fallback when the server does not return JSON.
+    }
+    throw new WishApiError(response.status, message)
+  }
+  return response.json() as Promise<T>
+}
+
+export function createWish(text: string, visibility: WishVisibility) {
+  return request<CreatedWish>('/api/wishes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, visibility }),
+  })
+}
+
+export function getWishStatus(wishId: string, claimToken: string) {
+  return request<WishStatusResponse>(`/api/wishes/${encodeURIComponent(wishId)}/status`, {
+    headers: { 'X-Claim-Token': claimToken },
+  })
+}
+
+export function grantWish(wishId: string, claimToken: string) {
+  return request<GrantedWish>(`/api/wishes/${encodeURIComponent(wishId)}/grant`, {
+    method: 'POST',
+    headers: { 'X-Claim-Token': claimToken },
+  })
+}
+
+export async function getSharedSky(): Promise<SkyWish[]> {
+  const response = await request<SharedSkyResponse>('/api/sky?limit=100&offset=0')
+  return response.stars
+}

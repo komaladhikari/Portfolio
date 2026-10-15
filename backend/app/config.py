@@ -8,6 +8,11 @@ class Settings(BaseSettings):
     environment: str = "development"
     debug: bool = False
     database_url: str = "sqlite:///./somewhere_star.db"
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+
+    @property
+    def allowed_origins(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
     model_config = SettingsConfigDict(
         env_file=".env",

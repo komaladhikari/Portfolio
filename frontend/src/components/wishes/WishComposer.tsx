@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { useWishStore } from '../../hooks/useWishStore'
 
 export function WishComposer({ isHome }: { isHome: boolean }) {
-  const { submitWish } = useWishStore()
+  const { clearError, error, submitWish } = useWishStore()
   const [open, setOpen] = useState(isHome)
   const [wishes, setWishes] = useState([''])
   const [shareAnonymously, setShareAnonymously] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const submittingRef = useRef(false)
   const firstInput = useRef<HTMLTextAreaElement>(null)
   const dialog = useRef<HTMLFormElement>(null)
   const wasHome = useRef(isHome)
@@ -66,12 +68,23 @@ export function WishComposer({ isHome }: { isHome: boolean }) {
     setWishes((current) => current.map((wish, wishIndex) => wishIndex === index ? value : wish))
   }
 
-  const submit = (event: React.FormEvent) => {
+  const submit = async (event: React.FormEvent) => {
     event.preventDefault()
+    if (submittingRef.current) return
     const filledWishes = wishes.map((wish) => wish.trim()).filter(Boolean)
     if (!filledWishes.length) return
-    filledWishes.forEach((wish) => submitWish(wish, !shareAnonymously))
-    close()
+    clearError()
+    submittingRef.current = true
+    setSubmitting(true)
+    try {
+      await Promise.all(filledWishes.map((wish) => submitWish(wish, !shareAnonymously)))
+      close()
+    } catch {
+      // The store exposes a safe user-facing error while the dialog stays open.
+    } finally {
+      submittingRef.current = false
+      setSubmitting(false)
+    }
   }
 
   if (!open) return null
@@ -87,7 +100,7 @@ export function WishComposer({ isHome }: { isHome: boolean }) {
         aria-labelledby="wish-dialog-title"
         aria-describedby="wish-dialog-description"
       >
-        <button className="wish-dialog-close" type="button" onClick={close} aria-label="Close wish window">×</button>
+        <button className="wish-dialog-close" type="button" onClick={close} disabled={submitting} aria-label="Close wish window">×</button>
         <span className="wish-dialog-sparkle" aria-hidden="true">✦</span>
         <h2 id="wish-dialog-title">We share the same sky.</h2>
         <p className="wish-dialog-intro" id="wish-dialog-description">
@@ -99,19 +112,20 @@ export function WishComposer({ isHome }: { isHome: boolean }) {
             <label className="wish-field" key={index}>
               <textarea
                 ref={index === 0 ? firstInput : undefined}
-                maxLength={180}
+                maxLength={200}
                 rows={2}
                 value={wish}
                 onChange={(event) => updateWish(index, event.target.value)}
                 placeholder="I wish..."
                 aria-label={`Wish ${index + 1}`}
+                disabled={submitting}
               />
             </label>
           ))}
         </div>
 
         {wishes.length < 3 && (
-          <button className="add-wish" type="button" onClick={addWish}>+ Add another wish</button>
+          <button className="add-wish" type="button" onClick={addWish} disabled={submitting}>+ Add another wish</button>
         )}
 
         <label className="private-wish">
@@ -119,14 +133,17 @@ export function WishComposer({ isHome }: { isHome: boolean }) {
             type="checkbox"
             checked={shareAnonymously}
             onChange={(event) => setShareAnonymously(event.target.checked)}
+            disabled={submitting}
           />
           Let others read my wishes anonymously
         </label>
 
+        {error && <p className="wish-dialog-error" role="alert">{error}</p>}
+
         <div className="wish-dialog-actions">
-          <button className="maybe-later" type="button" onClick={close}>Maybe later</button>
-          <button className="submit-wish" disabled={!wishes.some((wish) => wish.trim())} type="submit">
-            Send to the sky ✦
+          <button className="maybe-later" type="button" onClick={close} disabled={submitting}>Maybe later</button>
+          <button className="submit-wish" disabled={submitting || !wishes.some((wish) => wish.trim())} type="submit">
+            {submitting ? 'Sending...' : 'Send to the sky ✦'}
           </button>
         </div>
       </form>
