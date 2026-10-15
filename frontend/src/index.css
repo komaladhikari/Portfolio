@@ -1415,6 +1415,18 @@ h1 {
   transform: translateX(-50%);
 }
 
+.sky-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(360px, 80%);
+  margin: 0;
+  color: rgba(255, 247, 232, 0.68);
+  font-family: 'Gilda Display', serif;
+  font-size: 20px;
+  transform: translate(-50%, -50%);
+}
+
 .decorative-star,
 .granted-star {
   position: absolute;
@@ -1428,15 +1440,35 @@ h1 {
 }
 
 .granted-star {
-  width: 12px;
-  height: 12px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
   border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.granted-star::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
   background: #fff7e8;
   box-shadow:
     0 0 8px 3px #fff7e8,
     0 0 24px 9px rgba(217, 196, 255, 0.55);
-  cursor: pointer;
+  transform: translate(-50%, -50%);
   animation: wish-pulse 3s ease-in-out infinite;
+}
+
+.granted-star:focus-visible {
+  outline: 2px solid #fff7e8;
+  outline-offset: 2px;
+  border-radius: 50%;
 }
 
 .sky-wish-note {
@@ -1477,6 +1509,36 @@ h1 {
   line-height: 1.35;
 }
 
+.sky-controls {
+  min-height: 44px;
+  margin-top: 20px;
+}
+
+.sky-load-more,
+.sky-error button {
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 247, 232, 0.4);
+  border-radius: 999px;
+  color: #fff7e8;
+  background: rgba(217, 196, 255, 0.14);
+  cursor: pointer;
+}
+
+.sky-load-more:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.sky-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(255, 247, 232, 0.8);
+  font-size: 13px;
+}
+
 @keyframes meteor-flight {
   0% {
     opacity: 0;
@@ -1496,7 +1558,9 @@ h1 {
 }
 
 @keyframes wish-pulse {
-  50% { transform: scale(1.25); opacity: 0.72; }
+  0%,
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.72; }
 }
 
 /* Animation */
@@ -1643,6 +1707,20 @@ h1 {
     min-height: 310px;
     padding: 26px;
     border-radius: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .shared-sky-field {
+    height: 440px;
+  }
+
+  .sky-error {
+    flex-direction: column;
+  }
+
+  .sky-wish-note {
+    padding: 26px 22px;
   }
 }
 

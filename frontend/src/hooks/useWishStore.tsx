@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react'
@@ -22,11 +23,18 @@ type WishStore = {
   pendingWish?: OwnedWish
   grantedWishes: SkyWish[]
   isLoadingSky: boolean
+  isLoadingMoreSky: boolean
+  hasMoreSky: boolean
+  skyError: string | null
   error: string | null
   submitWish: (text: string, isPrivate: boolean) => Promise<void>
   grantWish: (wishId: string) => Promise<boolean>
   clearError: () => void
+  refreshSky: () => Promise<void>
+  loadMoreSky: () => Promise<void>
 }
+
+const SKY_PAGE_SIZE = 50
 
 const WishContext = createContext<WishStore | null>(null)
 
@@ -40,20 +48,55 @@ export function WishProvider({ children }: { children: ReactNode }) {
   const [wishes, setWishes] = useState<OwnedWish[]>([])
   const [grantedWishes, setGrantedWishes] = useState<SkyWish[]>([])
   const [isLoadingSky, setIsLoadingSky] = useState(true)
+  const [isLoadingMoreSky, setIsLoadingMoreSky] = useState(false)
+  const [hasMoreSky, setHasMoreSky] = useState(false)
+  const [skyError, setSkyError] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const skyVersion = useRef(0)
+  const loadingMoreSky = useRef(false)
 
   const clearError = useCallback(() => setError(null), [])
 
   const refreshSky = useCallback(async () => {
+    const version = skyVersion.current + 1
+    skyVersion.current = version
     setIsLoadingSky(true)
+    setSkyError(null)
     try {
-      setGrantedWishes(await getSharedSky())
+      const page = await getSharedSky(SKY_PAGE_SIZE, 0)
+      if (skyVersion.current !== version) return
+      setGrantedWishes(page.stars)
+      setHasMoreSky(page.stars.length === page.limit)
     } catch (requestError) {
-      setError(errorMessage(requestError))
+      if (skyVersion.current === version) setSkyError(errorMessage(requestError))
     } finally {
-      setIsLoadingSky(false)
+      if (skyVersion.current === version) setIsLoadingSky(false)
     }
   }, [])
+
+  const loadMoreSky = useCallback(async () => {
+    if (loadingMoreSky.current || !hasMoreSky) return
+    loadingMoreSky.current = true
+    const version = skyVersion.current
+    const offset = grantedWishes.length
+    setIsLoadingMoreSky(true)
+    setSkyError(null)
+    try {
+      const page = await getSharedSky(SKY_PAGE_SIZE, offset)
+      if (skyVersion.current !== version) return
+      setGrantedWishes((current) => {
+        const wishesById = new Map(current.map((wish) => [wish.id, wish]))
+        page.stars.forEach((wish) => wishesById.set(wish.id, wish))
+        return [...wishesById.values()]
+      })
+      setHasMoreSky(page.stars.length === page.limit)
+    } catch (requestError) {
+      if (skyVersion.current === version) setSkyError(errorMessage(requestError))
+    } finally {
+      loadingMoreSky.current = false
+      setIsLoadingMoreSky(false)
+    }
+  }, [grantedWishes.length, hasMoreSky])
 
   useEffect(() => {
     try {
@@ -170,11 +213,29 @@ export function WishProvider({ children }: { children: ReactNode }) {
     pendingWish: wishes.find((wish) => wish.status === 'pending'),
     grantedWishes,
     isLoadingSky,
+    isLoadingMoreSky,
+    hasMoreSky,
+    skyError,
     error,
     submitWish,
     grantWish,
     clearError,
-  }), [wishes, grantedWishes, isLoadingSky, error, submitWish, grantWish, clearError])
+    refreshSky,
+    loadMoreSky,
+  }), [
+    wishes,
+    grantedWishes,
+    isLoadingSky,
+    isLoadingMoreSky,
+    hasMoreSky,
+    skyError,
+    error,
+    submitWish,
+    grantWish,
+    clearError,
+    refreshSky,
+    loadMoreSky,
+  ])
 
   return <WishContext.Provider value={value}>{children}</WishContext.Provider>
 }

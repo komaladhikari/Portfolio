@@ -11,7 +11,7 @@ type WishStatusResponse = {
   granted_at: string | null
 }
 type GrantedWish = { id: string; status: WishStatus; granted_at: string }
-type SharedSkyResponse = {
+export type SharedSkyResponse = {
   stars: SkyWish[]
   limit: number
   offset: number
@@ -66,7 +66,10 @@ export function grantWish(wishId: string, claimToken: string) {
   })
 }
 
-export async function getSharedSky(): Promise<SkyWish[]> {
-  const response = await request<SharedSkyResponse>('/api/sky?limit=100&offset=0')
-  return response.stars
+export function getSharedSky(limit = 50, offset = 0) {
+  const parameters = new URLSearchParams({
+    limit: String(limit),
+    offset: String(offset),
+  })
+  return request<SharedSkyResponse>(`/api/sky?${parameters}`)
 }

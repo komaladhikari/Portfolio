@@ -64,11 +64,11 @@ describe('wish API', () => {
       offset: 0,
     }))
 
-    const stars = await getSharedSky()
+    const page = await getSharedSky(50, 100)
 
-    expect(stars).toHaveLength(1)
+    expect(page.stars).toHaveLength(1)
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:8000/api/sky?limit=100&offset=0',
+      'http://127.0.0.1:8000/api/sky?limit=50&offset=100',
       expect.objectContaining({ signal: expect.any(AbortSignal) }),
     )
   })
