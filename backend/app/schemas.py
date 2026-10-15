@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Annotated
 import uuid
 
@@ -18,3 +19,16 @@ class WishCreated(BaseModel):
     id: uuid.UUID
     claim_token: str
     status: WishStatus
+
+
+class WishStatusResponse(BaseModel):
+    id: uuid.UUID
+    status: WishStatus
+    created_at: datetime
+    granted_at: datetime | None
+
+
+class WishGranted(BaseModel):
+    id: uuid.UUID
+    status: WishStatus
+    granted_at: datetime
