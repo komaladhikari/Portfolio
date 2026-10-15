@@ -65,6 +65,14 @@ python -m benchmarks.benchmark_wish_storage \
 Results depend on the machine and should be regenerated when evaluating a
 database or deployment change.
 
+An in-process API benchmark uses a disposable SQLite database and never touches
+configured application data:
+
+```bash
+python -m benchmarks.benchmark_api \
+  --output docs/benchmarks/api-performance.md
+```
+
 ## Deployment preparation
 
 Do not use the development defaults in production. Configure at least:

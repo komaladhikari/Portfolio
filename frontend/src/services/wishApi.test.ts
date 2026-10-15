@@ -80,4 +80,11 @@ describe('wish API', () => {
       new WishApiError(403, 'Invalid claim token.'),
     )
   })
+
+  it('propagates network failures without returning stale data', async () => {
+    const networkFailure = new TypeError('Failed to fetch')
+    vi.mocked(fetch).mockRejectedValue(networkFailure)
+
+    await expect(getSharedSky()).rejects.toBe(networkFailure)
+  })
 })
