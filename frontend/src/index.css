@@ -1236,8 +1236,16 @@ h1 {
   background: transparent;
   pointer-events: auto;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   will-change: transform, opacity;
   animation: meteor-flight var(--duration) cubic-bezier(0.28, 0.62, 0.46, 0.98) forwards;
+}
+
+.shooting-star-hit:focus-visible {
+  outline: 2px solid #fff7e8;
+  outline-offset: 4px;
+  border-radius: 999px;
 }
 
 .meteor {
