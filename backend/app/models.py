@@ -22,6 +22,12 @@ class WishVisibility(str, enum.Enum):
     PRIVATE = "private"
 
 
+class ModerationStatus(str, enum.Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+
 class Wish(Base):
     __tablename__ = "wishes"
     __table_args__ = (
@@ -50,6 +56,18 @@ class Wish(Base):
             create_constraint=True,
             values_callable=lambda values: [value.value for value in values],
         ),
+        nullable=False,
+    )
+    moderation_status: Mapped[ModerationStatus] = mapped_column(
+        Enum(
+            ModerationStatus,
+            name="moderation_status",
+            native_enum=False,
+            create_constraint=True,
+            values_callable=lambda values: [value.value for value in values],
+        ),
+        default=ModerationStatus.PENDING,
+        server_default=ModerationStatus.PENDING.value,
         nullable=False,
     )
     created_at: Mapped[datetime] = mapped_column(

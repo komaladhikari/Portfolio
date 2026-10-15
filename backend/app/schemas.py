@@ -32,3 +32,17 @@ class WishGranted(BaseModel):
     id: uuid.UUID
     status: WishStatus
     granted_at: datetime
+
+
+class SkyStar(BaseModel):
+    id: uuid.UUID
+    x: float
+    y: float
+    visibility: WishVisibility
+    text: str
+
+
+class SharedSkyResponse(BaseModel):
+    stars: list[SkyStar]
+    limit: int
+    offset: int

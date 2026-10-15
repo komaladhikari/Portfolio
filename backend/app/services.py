@@ -31,6 +31,10 @@ class WishGrantError(Exception):
     pass
 
 
+class SkyRetrievalError(Exception):
+    pass
+
+
 def hash_claim_token(claim_token: str) -> str:
     return hashlib.sha256(claim_token.encode("utf-8")).hexdigest()
 
@@ -125,3 +129,18 @@ def grant_wish(db: Session, wish_id: uuid.UUID, claim_token: str) -> Wish:
     except SQLAlchemyError as error:
         db.rollback()
         raise WishGrantError from error
+
+
+def list_sky_wishes(db: Session, limit: int, offset: int) -> list[Wish]:
+    try:
+        return list(
+            db.scalars(
+                select(Wish)
+                .where(Wish.status == WishStatus.GRANTED)
+                .order_by(Wish.granted_at.desc(), Wish.id)
+                .limit(limit)
+                .offset(offset)
+            )
+        )
+    except SQLAlchemyError as error:
+        raise SkyRetrievalError from error

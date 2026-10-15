@@ -20,6 +20,7 @@ def test_migrations_create_wishes_table(tmp_path: Path) -> None:
         "text",
         "status",
         "visibility",
+        "moderation_status",
         "created_at",
         "granted_at",
         "sky_x",
@@ -30,4 +31,8 @@ def test_migrations_create_wishes_table(tmp_path: Path) -> None:
         column for column in inspector.get_columns("wishes") if column["name"] == "text"
     )
     assert text_column["type"].length == 200
+    check_names = {
+        constraint["name"] for constraint in inspector.get_check_constraints("wishes")
+    }
+    assert "moderation_status" in check_names
     engine.dispose()
