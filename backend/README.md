@@ -52,6 +52,19 @@ Open:
 pytest
 ```
 
+## Benchmark wish storage
+
+The benchmark uses synthetic wishes in disposable SQLite databases. It never
+connects to the application database:
+
+```bash
+python -m benchmarks.benchmark_wish_storage \
+  --output docs/benchmarks/wish-storage.md
+```
+
+Results depend on the machine and should be regenerated when evaluating a
+database or deployment change.
+
 ## Deployment preparation
 
 Do not use the development defaults in production. Configure at least:
