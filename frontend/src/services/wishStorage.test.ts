@@ -16,7 +16,12 @@ describe('wish credential storage', () => {
   })
 
   it('stores only wish IDs and claim tokens', () => {
-    saveWishCredentials([{ id: 'wish-id', claimToken: 'private-token' }])
+    const contaminatedCredential = {
+      id: 'wish-id',
+      claimToken: 'private-token',
+      text: 'must not be stored',
+    }
+    saveWishCredentials([contaminatedCredential])
 
     expect(JSON.parse(values.get('komal-portfolio-wish-credentials') ?? '')).toEqual([
       { id: 'wish-id', claimToken: 'private-token' },
@@ -32,5 +37,22 @@ describe('wish credential storage', () => {
 
     expect(loadWishCredentials()).toEqual([{ id: 'valid', claimToken: 'token' }])
     expect(values.has('komal-portfolio-wishes')).toBe(false)
+  })
+
+  it('handles missing storage data as a visitor with no owned wishes', () => {
+    expect(loadWishCredentials()).toEqual([])
+  })
+
+  it('keeps only the latest token when an ID is duplicated', () => {
+    values.set('komal-portfolio-wish-credentials', JSON.stringify([
+      { id: 'wish-id', claimToken: 'expired-token' },
+      { id: 'wish-id', claimToken: 'current-token' },
+      { id: '', claimToken: 'invalid' },
+      { id: 'missing-token', claimToken: '' },
+    ]))
+
+    expect(loadWishCredentials()).toEqual([
+      { id: 'wish-id', claimToken: 'current-token' },
+    ])
   })
 })

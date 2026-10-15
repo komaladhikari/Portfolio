@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useWishStore } from '../../hooks/useWishStore'
+import {
+  acquireSubmissionLock,
+  prepareUniqueWishes,
+  submitWishesInOrder,
+} from './wishSubmission'
 
 export function WishComposer({ isHome }: { isHome: boolean }) {
   const { clearError, error, submitWish } = useWishStore()
@@ -70,17 +75,21 @@ export function WishComposer({ isHome }: { isHome: boolean }) {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (submittingRef.current) return
-    const filledWishes = wishes.map((wish) => wish.trim()).filter(Boolean)
+    const filledWishes = prepareUniqueWishes(wishes)
     if (!filledWishes.length) return
+    if (!acquireSubmissionLock(submittingRef)) return
     clearError()
-    submittingRef.current = true
     setSubmitting(true)
     try {
-      await Promise.all(filledWishes.map((wish) => submitWish(wish, !shareAnonymously)))
-      close()
-    } catch {
-      // The store exposes a safe user-facing error while the dialog stays open.
+      const remaining = await submitWishesInOrder(
+        filledWishes,
+        (wish) => submitWish(wish, !shareAnonymously),
+      )
+      if (remaining.length) {
+        setWishes(remaining)
+      } else {
+        close()
+      }
     } finally {
       submittingRef.current = false
       setSubmitting(false)
