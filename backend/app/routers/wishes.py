@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.rate_limit import limit_wish_grant, limit_wish_submission
 from app.schemas import WishCreate, WishCreated, WishGranted, WishStatusResponse
 from app.services import (
     InvalidClaimTokenError,
@@ -24,7 +25,12 @@ DatabaseSession = Annotated[Session, Depends(get_db)]
 ClaimToken = Annotated[str, Header(alias="X-Claim-Token", min_length=1, max_length=200)]
 
 
-@router.post("", response_model=WishCreated, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "",
+    response_model=WishCreated,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(limit_wish_submission)],
+)
 def create_wish_endpoint(wish_data: WishCreate, db: DatabaseSession) -> WishCreated:
     try:
         wish, claim_token = create_wish(db, wish_data)
@@ -69,7 +75,11 @@ def get_wish_status_endpoint(
     )
 
 
-@router.post("/{wish_id}/grant", response_model=WishGranted)
+@router.post(
+    "/{wish_id}/grant",
+    response_model=WishGranted,
+    dependencies=[Depends(limit_wish_grant)],
+)
 def grant_wish_endpoint(
     wish_id: uuid.UUID,
     claim_token: ClaimToken,

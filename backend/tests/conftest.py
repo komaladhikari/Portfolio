@@ -8,6 +8,16 @@ from sqlalchemy.orm import Session
 from app.database import Base, get_db
 from app.main import app
 from app import models  # noqa: F401
+from app.rate_limit import grant_limiter, submission_limiter
+
+
+@pytest.fixture(autouse=True)
+def reset_rate_limits() -> Generator[None, None, None]:
+    submission_limiter.reset()
+    grant_limiter.reset()
+    yield
+    submission_limiter.reset()
+    grant_limiter.reset()
 
 
 @pytest.fixture

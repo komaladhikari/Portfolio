@@ -30,11 +30,12 @@ describe('wish API', () => {
 
     await createWish('A thoughtful wish', 'private')
 
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/wishes', {
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/wishes', expect.objectContaining({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: 'A thoughtful wish', visibility: 'private' }),
-    })
+      signal: expect.any(AbortSignal),
+    }))
   })
 
   it('sends claim tokens only in private headers', async () => {
@@ -68,7 +69,7 @@ describe('wish API', () => {
     expect(stars).toHaveLength(1)
     expect(fetch).toHaveBeenCalledWith(
       'http://127.0.0.1:8000/api/sky?limit=100&offset=0',
-      undefined,
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
     )
   })
 

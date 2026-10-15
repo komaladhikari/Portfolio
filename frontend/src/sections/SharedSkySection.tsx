@@ -9,6 +9,10 @@ const decorativeStars = Array.from({ length: 52 }, (_, index) => ({
   size: index % 9 === 0 ? 2 : 1,
 }))
 
+export function SkyWishText({ text }: { text: string }) {
+  return <p>{text}</p>
+}
+
 export function SharedSkySection() {
   const { grantedWishes, isLoadingSky } = useWishStore()
   const [selected, setSelected] = useState<SkyWish | null>(null)
@@ -39,7 +43,7 @@ export function SharedSkySection() {
           <div className="sky-wish-note">
             <button onClick={() => setSelected(null)} aria-label="Close">×</button>
             <span>Someone wished</span>
-            <p>{selected.text}</p>
+            <SkyWishText text={selected.text} />
           </div>
         )}
       </div>
