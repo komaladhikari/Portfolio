@@ -38,8 +38,8 @@ environment file; Vite variables are visible in the browser.
 4. Return visits retrieve authoritative status from the backend.
 5. Catching the shooting star calls `POST /api/wishes/{id}/grant`.
 6. A successful grant refreshes the paginated Shared Sky immediately.
-7. Only approved public wishes expose their text. Private or unapproved wishes
-   use the generic privacy message.
+7. Public wishes are approved automatically and expose their text after they are
+   granted. Private wishes use the generic privacy message.
 
 ## Verification
 
@@ -80,8 +80,8 @@ browser painting, and production hosting behavior. See
   data is cleared. HTTPS and strong XSS protections are required.
 - Rate limiting is process-local. Multiple backend workers need gateway or
   shared-store rate limiting.
-- Moderation defaults public wish text to hidden, but an administrative approval
-  workflow is not implemented.
+- Public wishes are published without human review after granting. React escapes
+  their text, but deployments should still consider abuse reporting or moderation.
 - Shared Sky uses offset pagination, which can shift if new grants arrive while
   older pages are being loaded.
 - SQLite benchmarks do not replace staging tests against PostgreSQL. Task 9

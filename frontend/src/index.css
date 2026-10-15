@@ -63,9 +63,11 @@ button {
 .route-home,
 .route-shared-sky {
   background-color: #41375f;
-  background-size: auto 100svh;
+  background-size:
+    100% 100svh,
+    max(100%, calc(100svh * 1.9048)) auto;
   background-repeat: no-repeat;
-  background-position: top center;
+  background-position: top center, top center;
 }
 
 .route-page-shell {

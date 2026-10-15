@@ -48,7 +48,7 @@ describe('shooting-star lifecycle helpers', () => {
       ex: 1_220,
       sy: 204,
       ey: 476,
-      duration: 7,
+      duration: 9,
     })
     expect(flight.angle).toBeGreaterThan(0)
   })

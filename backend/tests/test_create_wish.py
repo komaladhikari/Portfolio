@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.main import app
-from app.models import Wish, WishStatus, WishVisibility
+from app.models import ModerationStatus, Wish, WishStatus, WishVisibility
 
 
 def test_create_wish_persists_pending_wish(
@@ -33,6 +33,7 @@ def test_create_wish_persists_pending_wish(
     assert saved_wish.text == "I wish to keep learning."
     assert saved_wish.status is WishStatus.PENDING
     assert saved_wish.visibility is WishVisibility.PUBLIC
+    assert saved_wish.moderation_status is ModerationStatus.APPROVED
     assert saved_wish.created_at is not None
     assert saved_wish.granted_at is None
     assert 0 <= saved_wish.sky_x <= 100

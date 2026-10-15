@@ -7,7 +7,7 @@ from app.models import ModerationStatus, Wish, WishVisibility
 from app.routers.sky import PRIVATE_WISH_MESSAGE
 
 
-def test_complete_public_wish_flow_requires_moderation(
+def test_complete_public_wish_flow_is_approved_automatically(
     api_client: TestClient,
     db_session: Session,
 ) -> None:
@@ -46,19 +46,14 @@ def test_complete_public_wish_flow_requires_moderation(
         == granted_response.json()["granted_at"]
     )
 
-    hidden_star = api_client.get("/api/sky").json()["stars"][0]
-    assert hidden_star["text"] == PRIVATE_WISH_MESSAGE
-    assert dangerous_text not in str(hidden_star)
-    assert created["claim_token"] not in str(hidden_star)
-
     wish = db_session.get(Wish, uuid.UUID(created["id"]))
     assert wish is not None
-    wish.moderation_status = ModerationStatus.APPROVED
-    db_session.commit()
+    assert wish.moderation_status is ModerationStatus.APPROVED
 
     approved_star = api_client.get("/api/sky").json()["stars"][0]
     assert approved_star["text"] == dangerous_text
     assert set(approved_star) == {"id", "x", "y", "visibility", "text"}
+    assert created["claim_token"] not in str(approved_star)
 
 
 def test_private_visibility_survives_the_complete_wish_flow(

@@ -7,7 +7,7 @@ from sqlalchemy import select, update
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.models import Wish, WishStatus, utc_now
+from app.models import ModerationStatus, Wish, WishStatus, WishVisibility, utc_now
 from app.schemas import WishCreate
 
 
@@ -60,6 +60,11 @@ def create_wish(db: Session, wish_data: WishCreate) -> tuple[Wish, str]:
         text=wish_data.text,
         status=WishStatus.PENDING,
         visibility=wish_data.visibility,
+        moderation_status=(
+            ModerationStatus.APPROVED
+            if wish_data.visibility is WishVisibility.PUBLIC
+            else ModerationStatus.PENDING
+        ),
         sky_x=sky_x,
         sky_y=sky_y,
         claim_token_hash=hash_claim_token(claim_token),

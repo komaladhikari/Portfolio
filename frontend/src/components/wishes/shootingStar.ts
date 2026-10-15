@@ -52,6 +52,6 @@ export function createFlight(
     ex,
     ey,
     angle: Math.atan2(ey - sy, ex - sx) * 180 / Math.PI,
-    duration: 6 + random() * 2,
+    duration: 8 + random() * 2,
   }
 }
