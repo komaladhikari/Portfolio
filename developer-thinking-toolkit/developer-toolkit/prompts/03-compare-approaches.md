@@ -1,0 +1,2 @@
+# Compare approaches
+Feature/problem: [PROBLEM]. Inspect existing patterns first. Propose 2–3 realistic solutions including a minimal-change option. Compare their tradeoffs: simplicity, compatibility with current architecture, correctness, security, performance, operational burden, maintainability, and ease of testing where applicable. Give a decision matrix, recommend one option with rationale, and explain when you'd choose another. No code edits.
