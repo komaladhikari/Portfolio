@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     name: str = "Somewhere, a Star API"
     environment: str = "development"
     debug: bool = False
+    database_url: str = "sqlite:///./somewhere_star.db"
 
     model_config = SettingsConfigDict(
         env_file=".env",

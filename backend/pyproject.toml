@@ -8,8 +8,10 @@ version = "0.1.0"
 description = "FastAPI backend for the Somewhere, a Star portfolio experience"
 requires-python = ">=3.11"
 dependencies = [
+    "alembic>=1.14,<2.0",
     "fastapi>=0.115,<1.0",
     "pydantic-settings>=2.6,<3.0",
+    "sqlalchemy>=2.0,<3.0",
     "uvicorn>=0.30,<1.0",
 ]
 
@@ -18,6 +20,10 @@ dev = [
     "httpx>=0.27,<1.0",
     "pytest>=8,<10",
 ]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["migrations*", "tests*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

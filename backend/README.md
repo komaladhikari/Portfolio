@@ -18,6 +18,17 @@ python -m pip install -e '.[dev]'
 Optionally copy `.env.example` to `.env` to customize local settings. The
 application has safe development defaults, so this is not required.
 
+## Database
+
+SQLite is used for local development. Create or update the local schema with:
+
+```bash
+alembic upgrade head
+```
+
+The database URL can be changed through `APP_DATABASE_URL`. Alembic migrations
+must be applied before code that depends on a new schema is run.
+
 ## Run the server
 
 ```bash
