@@ -1,0 +1,2 @@
+# Review changes
+Review the current diff against the target branch for [TASK]. Do not edit files. Summarize behavior changes and identify bugs, regressions, security issues, edge cases, consistency concerns, and missing tests. Rank findings by severity and cite file paths and lines when possible. Explain fixes in simple terms. If nothing material is found, say so and mention remaining uncertainty.

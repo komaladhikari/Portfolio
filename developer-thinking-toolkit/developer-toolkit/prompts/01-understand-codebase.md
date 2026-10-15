@@ -1,0 +1,2 @@
+# Understand codebase
+Inspect this repository and explain the relevant architecture for: [AREA]. Do not edit files. Show entry points, important directories, key classes/functions, request/data flow, configuration, dependencies, tests, and conventions. Use real file paths. Explain in beginner-friendly terms and flag what you have not verified. End with a short glossary and recommended reading order.
