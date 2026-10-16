@@ -48,22 +48,23 @@ button {
 }
 
 .home::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    180deg,
-    rgba(99, 88, 157, 0.14) 0%,
-    transparent 35%,
-    rgba(221, 161, 203, 0.12) 100%
-  );
+  content: none;
 }
 
 .route-home,
 .route-shared-sky {
-  background-color: #41375f;
-  background-size: auto 100svh;
+  background: #514263;
+}
+
+.home-journey {
+  background-color: #514263;
+  background-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(137, 114, 148, 0.2) 0%,
+    rgba(137, 114, 148, 0.08) 28%,
+    rgba(137, 114, 148, 0) 58%
+  );
+  background-size: 100% 125svh;
   background-repeat: no-repeat;
   background-position: top center;
 }
@@ -96,20 +97,11 @@ button {
   height: clamp(280px, 34vw, 470px);
   overflow: hidden;
   margin-top: -1px;
-  background: linear-gradient(
-    180deg,
-    rgba(182, 157, 214, 0) 0%,
-    rgba(143, 120, 182, 0.62) 33%,
-    rgba(89, 71, 129, 0.9) 70%,
-    #41375f 100%
-  );
+  background: transparent;
 }
 
 .sky-transition::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% -10%, rgba(230, 185, 221, 0.28), transparent 58%);
+  content: none;
 }
 
 .constellation-map {
@@ -310,6 +302,7 @@ button {
   display: grid;
   place-items: center;
   padding: 112px 24px 64px;
+  background: var(--hero-image) center / cover no-repeat;
   text-align: center;
 }
 
@@ -865,6 +858,669 @@ h1 {
   min-height: 0;
 }
 
+.future-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.future-card-link:focus-visible {
+  outline: 2px solid #67549c;
+  outline-offset: 4px;
+}
+
+/* Hidden "More I'm Building" sky */
+.building-sky {
+  position: relative;
+  min-height: calc(100svh - 68px);
+  overflow: hidden;
+  padding: clamp(34px, 5vw, 58px) var(--page-gutter) 72px;
+  background:
+    radial-gradient(circle at 16% 28%, rgba(255, 239, 250, 0.58), transparent 25%),
+    radial-gradient(circle at 84% 64%, rgba(192, 172, 230, 0.45), transparent 30%),
+    linear-gradient(165deg, #c1b6eb 0%, #d6b9e7 50%, #e8bcd9 100%);
+}
+
+.building-sky-heading {
+  position: relative;
+  z-index: 3;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.building-sky-heading h1 {
+  margin-top: 10px;
+  font-size: clamp(40px, 5vw, 54px);
+}
+
+.building-sky-heading > p:last-child {
+  margin: 16px 0 0;
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.back-to-projects {
+  display: inline-flex;
+  margin-bottom: 24px;
+  color: rgba(64, 53, 84, 0.78);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.back-to-projects:hover {
+  color: #403554;
+  transform: translateX(-3px);
+}
+
+.building-sky-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.building-sky-stars i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff9e8;
+  box-shadow: 0 0 8px rgba(255, 249, 232, 0.9);
+  animation: building-star-twinkle 3.8s ease-in-out infinite;
+}
+
+.building-sky-stars i:nth-child(6n + 1) { left: 7%; top: 17%; }
+.building-sky-stars i:nth-child(6n + 2) { left: 23%; top: 49%; animation-delay: -1.2s; }
+.building-sky-stars i:nth-child(6n + 3) { left: 42%; top: 29%; animation-delay: -2.4s; }
+.building-sky-stars i:nth-child(6n + 4) { left: 61%; top: 72%; animation-delay: -0.7s; }
+.building-sky-stars i:nth-child(6n + 5) { left: 79%; top: 22%; animation-delay: -1.8s; }
+.building-sky-stars i:nth-child(6n) { left: 92%; top: 55%; animation-delay: -3s; }
+.building-sky-stars i:nth-child(7) { left: 14%; top: 68%; }
+.building-sky-stars i:nth-child(8) { left: 31%; top: 82%; }
+.building-sky-stars i:nth-child(9) { left: 48%; top: 58%; }
+.building-sky-stars i:nth-child(10) { left: 68%; top: 39%; }
+.building-sky-stars i:nth-child(11) { left: 86%; top: 78%; }
+.building-sky-stars i:nth-child(12) { left: 96%; top: 32%; }
+.building-sky-stars i:nth-child(13) { left: 4%; top: 91%; }
+.building-sky-stars i:nth-child(14) { left: 35%; top: 16%; }
+.building-sky-stars i:nth-child(15) { left: 53%; top: 88%; }
+.building-sky-stars i:nth-child(16) { left: 72%; top: 11%; }
+.building-sky-stars i:nth-child(17) { left: 83%; top: 49%; }
+.building-sky-stars i:nth-child(18) { left: 94%; top: 89%; }
+
+.cloud-scape {
+  position: relative;
+  z-index: 2;
+  width: min(100%, var(--content-width));
+  height: clamp(560px, 63vw, 690px);
+  margin: 16px auto 0;
+  transition: filter 0.35s ease, opacity 0.35s ease;
+}
+
+.cloud-scape.has-open-panel {
+  filter: blur(4px);
+  opacity: 0.54;
+}
+
+.painted-cloud {
+  position: absolute;
+  width: 350px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(250, 238, 255, 0.25);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.cloud-haze-one {
+  top: 14%;
+  left: -10%;
+  transform: rotate(-8deg);
+}
+
+.cloud-haze-two {
+  right: -8%;
+  bottom: 12%;
+  transform: rotate(9deg) scale(1.25);
+}
+
+.explorer-cloud {
+  position: absolute;
+  z-index: 1;
+  width: clamp(200px, 21vw, 250px);
+  min-height: 126px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 25px 18px 12px;
+  border: 0;
+  color: #55446d;
+  background: transparent;
+  cursor: pointer;
+  animation: cloud-drift 7s ease-in-out infinite;
+  transition: filter 0.3s ease;
+}
+
+.explorer-cloud-shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: #f8f3ff;
+  filter: drop-shadow(0 14px 20px rgba(83, 61, 121, 0.11));
+  transition: filter 0.3s ease;
+}
+
+.explorer-cloud:hover,
+.explorer-cloud:focus-visible {
+  animation-play-state: paused;
+  transform: translateY(-6px) scale(1.035);
+  filter: drop-shadow(0 12px 20px rgba(104, 80, 154, 0.2));
+  outline: none;
+}
+
+.explorer-cloud:focus-visible {
+  filter: drop-shadow(0 0 5px rgba(103, 84, 156, 0.75)) drop-shadow(0 12px 20px rgba(104, 80, 154, 0.2));
+}
+
+.explorer-cloud > span {
+  position: relative;
+  z-index: 2;
+}
+
+.explorer-cloud > span:last-child {
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(16px, 1.5vw, 19px);
+  letter-spacing: -0.01em;
+}
+
+.explorer-cloud-icon {
+  color: #8a72b5;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.cloud-position-1 { top: 17%; left: 7%; animation-duration: 7.4s; }
+.cloud-position-2 { top: 7%; left: 40%; animation-delay: -2.2s; animation-duration: 8.2s; }
+.cloud-position-3 { top: 21%; right: 6%; animation-delay: -4.1s; animation-duration: 7.8s; }
+.cloud-position-4 { top: 58%; left: 13%; animation-delay: -1.4s; animation-duration: 8.6s; }
+.cloud-position-5 { top: 45%; left: 43%; animation-delay: -3.5s; animation-duration: 7.1s; }
+.cloud-position-6 { top: 62%; right: 8%; animation-delay: -5s; animation-duration: 8s; }
+
+.cloud-position-2 .explorer-cloud-shape,
+.cloud-position-5 .explorer-cloud-shape {
+  fill: #eee5fb;
+}
+
+.cloud-position-3 .explorer-cloud-shape,
+.cloud-position-6 .explorer-cloud-shape {
+  fill: #f8e8f2;
+}
+
+.placeholder-cloud {
+  position: absolute;
+  z-index: 0;
+  width: min(var(--placeholder-size), 22vw);
+  overflow: visible;
+  opacity: 0.48;
+  filter: drop-shadow(0 12px 18px rgba(83, 61, 121, 0.07));
+  pointer-events: none;
+  animation: cloud-drift 9s ease-in-out infinite;
+}
+
+.sky-panel-layer {
+  position: fixed;
+  z-index: 9;
+  inset: 68px 0 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: 28px;
+  background: rgba(81, 66, 99, 0.24);
+  backdrop-filter: blur(5px);
+  animation: sky-layer-in 0.3s ease both;
+}
+
+.sky-content-panel {
+  position: relative;
+  width: min(100%, 680px);
+  max-height: calc(100svh - 124px);
+  overflow-y: auto;
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 30px;
+  background: rgba(246, 238, 255, 0.93);
+  box-shadow: 0 34px 90px rgba(65, 46, 96, 0.28);
+  animation: sky-panel-in 0.38s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+.sky-panel-layer.is-closing {
+  pointer-events: none;
+  animation: sky-layer-out 0.24s ease both;
+}
+
+.sky-panel-layer.is-closing .sky-content-panel {
+  animation: sky-panel-out 0.24s ease both;
+}
+
+.sky-panel-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(64, 53, 84, 0.18);
+  border-radius: 50%;
+  color: #55446d;
+  background: rgba(255, 255, 255, 0.42);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sky-panel-icon {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #8a72b5;
+  font-size: 24px;
+}
+
+.sky-content-panel h2 {
+  margin: 8px 48px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 400;
+}
+
+.sky-panel-intro {
+  max-width: 560px;
+  margin: 14px 0 0;
+  color: rgba(64, 53, 84, 0.76);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.sky-panel-items {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.sky-content-panel.panel-gallery,
+.sky-content-panel.panel-youtube {
+  width: min(100%, 860px);
+}
+
+.scrapbook-project {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1.2fr);
+  gap: 24px;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid rgba(103, 84, 156, 0.16);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.scrapbook-project > img,
+.scrapbook-project > .scrapbook-image-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.scrapbook-project h3,
+.small-scrapbook-card h3 {
+  margin: 7px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.scrapbook-project p,
+.small-scrapbook-card p {
+  margin: 9px 0 0;
+  color: rgba(64, 53, 84, 0.75);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.scrapbook-project a,
+.small-scrapbook-card a {
+  display: inline-flex;
+  margin-top: 12px;
+  color: #67549c;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.scrapbook-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: rgba(103, 84, 156, 0.72);
+  background:
+    radial-gradient(circle at 70% 25%, rgba(255, 255, 255, 0.55), transparent 24%),
+    linear-gradient(145deg, rgba(214, 190, 235, 0.65), rgba(239, 205, 226, 0.6));
+}
+
+.scrapbook-image-placeholder span {
+  color: rgba(255, 249, 232, 0.9);
+  font-size: 20px;
+}
+
+.scrapbook-image-placeholder small {
+  padding: 0 12px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.future-project-space,
+.scrapbook-empty {
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px dashed rgba(103, 84, 156, 0.24);
+  border-radius: 18px;
+  color: rgba(64, 53, 84, 0.62);
+  font-size: 13px;
+  text-align: center;
+}
+
+.photo-gallery {
+  columns: 2;
+  column-gap: 14px;
+}
+
+.photo-tile {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  margin: 0 0 14px;
+  padding: 0;
+  break-inside: avoid;
+  border: 0;
+  border-radius: 18px;
+  color: #403554;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 28px rgba(70, 50, 112, 0.1);
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.photo-tile:disabled {
+  cursor: default;
+}
+
+.photo-tile.portrait img,
+.photo-tile.portrait .scrapbook-image-placeholder {
+  aspect-ratio: 4 / 5;
+}
+
+.photo-tile.landscape img,
+.photo-tile.landscape .scrapbook-image-placeholder {
+  aspect-ratio: 3 / 2;
+}
+
+.photo-tile img,
+.photo-tile .scrapbook-image-placeholder {
+  width: 100%;
+  display: flex;
+  object-fit: cover;
+}
+
+.photo-tile > span {
+  display: block;
+  padding: 11px 14px 13px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.photo-lightbox {
+  position: fixed;
+  z-index: 14;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(52, 41, 70, 0.72);
+  backdrop-filter: blur(10px);
+  animation: sky-layer-in 0.25s ease both;
+}
+
+.photo-lightbox figure {
+  position: relative;
+  max-width: min(920px, 92vw);
+  max-height: 90svh;
+  margin: 0;
+}
+
+.photo-lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: 82svh;
+  border-radius: 20px;
+  object-fit: contain;
+}
+
+.photo-lightbox button {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  color: #403554;
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.photo-lightbox figcaption {
+  margin-top: 10px;
+  color: #fff9e8;
+  font-size: 13px;
+  text-align: center;
+}
+
+.youtube-channel-link {
+  display: inline-flex;
+  padding: 11px 17px;
+  border: 1px solid rgba(103, 84, 156, 0.25);
+  border-radius: 999px;
+  color: #67549c;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.video-grid > a {
+  overflow: hidden;
+  border-radius: 18px;
+  color: #403554;
+  background: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+}
+
+.video-grid img,
+.video-grid .scrapbook-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  object-fit: cover;
+}
+
+.video-grid > a > span {
+  display: block;
+  padding: 13px 15px 16px;
+  font-family: 'Gilda Display', serif;
+  font-size: 18px;
+}
+
+.small-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.small-scrapbook-card {
+  padding: 20px;
+  border: 1px solid rgba(103, 84, 156, 0.16);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.small-scrapbook-card img {
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 14px;
+}
+
+.fun-fact-card {
+  padding: clamp(24px, 5vw, 38px);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(238, 229, 251, 0.72), rgba(248, 232, 242, 0.7));
+  text-align: center;
+}
+
+.fun-fact-card > span {
+  color: #fff9e8;
+  font-size: 24px;
+}
+
+.fun-fact-card p {
+  margin: 16px auto 0;
+  font-family: 'Gilda Display', serif;
+  font-size: clamp(22px, 3vw, 29px);
+  line-height: 1.35;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.fun-fact-card p.is-changing {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+.fun-fact-card button {
+  margin-top: 24px;
+  padding: 10px 17px;
+  border: 1px solid rgba(103, 84, 156, 0.25);
+  border-radius: 999px;
+  color: #67549c;
+  background: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sky-panel-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid rgba(103, 84, 156, 0.16);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.sky-panel-item img {
+  width: 128px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 13px;
+}
+
+.sky-panel-item h3 {
+  margin: 5px 0 0;
+  font-family: 'Gilda Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.sky-panel-item p {
+  margin: 8px 0 0;
+  color: rgba(64, 53, 84, 0.74);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.sky-panel-item a {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 12px;
+  color: #67549c;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sky-item-status {
+  color: #7a64a7;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.back-to-sky {
+  margin-top: 26px;
+  padding: 0;
+  border: 0;
+  color: #67549c;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@keyframes cloud-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+
+@keyframes building-star-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.9; transform: scale(1.5); }
+}
+
+@keyframes sky-layer-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sky-layer-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes sky-panel-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sky-panel-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
 /* Writing section */
 .writing-section {
   position: relative;
@@ -1199,6 +1855,13 @@ h1 {
   cursor: not-allowed;
 }
 
+.wish-dialog-error {
+  margin: 12px 0 0;
+  color: #6f294d;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 @keyframes wish-dialog-arrive {
   from { opacity: 0; transform: scale(0.97) translateY(5px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
@@ -1229,8 +1892,16 @@ h1 {
   background: transparent;
   pointer-events: auto;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   will-change: transform, opacity;
   animation: meteor-flight var(--duration) cubic-bezier(0.28, 0.62, 0.46, 0.98) forwards;
+}
+
+.shooting-star-hit:focus-visible {
+  outline: 2px solid #fff7e8;
+  outline-offset: 4px;
+  border-radius: 999px;
 }
 
 .meteor {
@@ -1292,6 +1963,34 @@ h1 {
   backdrop-filter: blur(18px);
 }
 
+.wish-error-message {
+  position: fixed;
+  z-index: 71;
+  right: 24px;
+  bottom: 78px;
+  width: min(340px, calc(100vw - 48px));
+  padding: 24px;
+  border: 1px solid rgba(255, 247, 232, 0.54);
+  border-radius: 24px;
+  background: rgba(217, 196, 255, 0.95);
+  box-shadow: 0 20px 55px rgba(44, 29, 77, 0.25);
+}
+
+.wish-error-message > button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wish-error-message p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .shooting-star-hit.reduced-motion-star {
   top: 20%;
   left: 50%;
@@ -1334,9 +2033,7 @@ h1 {
   min-height: 100svh;
   padding: 80px 6vw 64px;
   color: #fff7e8;
-  background:
-    radial-gradient(circle at 70% 25%, rgba(166, 154, 219, 0.24), transparent 32%),
-    linear-gradient(180deg, #41375f, #241d3e);
+  background: transparent;
   text-align: center;
   scroll-margin-top: 76px;
 }
@@ -1362,6 +2059,28 @@ h1 {
   margin: 36px auto 0;
 }
 
+.sky-loading {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  margin: 0;
+  color: rgba(255, 247, 232, 0.65);
+  font-size: 12px;
+  transform: translateX(-50%);
+}
+
+.sky-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(360px, 80%);
+  margin: 0;
+  color: rgba(255, 247, 232, 0.68);
+  font-family: 'Gilda Display', serif;
+  font-size: 20px;
+  transform: translate(-50%, -50%);
+}
+
 .decorative-star,
 .granted-star {
   position: absolute;
@@ -1375,15 +2094,35 @@ h1 {
 }
 
 .granted-star {
-  width: 12px;
-  height: 12px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
   border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.granted-star::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
   background: #fff7e8;
   box-shadow:
     0 0 8px 3px #fff7e8,
     0 0 24px 9px rgba(217, 196, 255, 0.55);
-  cursor: pointer;
+  transform: translate(-50%, -50%);
   animation: wish-pulse 3s ease-in-out infinite;
+}
+
+.granted-star:focus-visible {
+  outline: 2px solid #fff7e8;
+  outline-offset: 2px;
+  border-radius: 50%;
 }
 
 .sky-wish-note {
@@ -1400,7 +2139,7 @@ h1 {
   transform: translate(-50%, -50%);
 }
 
-.sky-wish-note button {
+.sky-wish-note-close {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -1408,6 +2147,27 @@ h1 {
   color: #fff7e8;
   background: transparent;
   cursor: pointer;
+}
+
+.sky-wish-delete {
+  min-height: 38px;
+  margin-top: 22px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 247, 232, 0.35);
+  border-radius: 999px;
+  color: #fff7e8;
+  background: rgba(255, 247, 232, 0.08);
+  cursor: pointer;
+}
+
+.sky-wish-delete:hover:not(:disabled),
+.sky-wish-delete:focus-visible {
+  background: rgba(255, 247, 232, 0.16);
+}
+
+.sky-wish-delete:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .sky-wish-note span {
@@ -1422,6 +2182,36 @@ h1 {
   font-family: 'Gilda Display', serif;
   font-size: 25px;
   line-height: 1.35;
+}
+
+.sky-controls {
+  min-height: 44px;
+  margin-top: 20px;
+}
+
+.sky-load-more,
+.sky-error button {
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 247, 232, 0.4);
+  border-radius: 999px;
+  color: #fff7e8;
+  background: rgba(217, 196, 255, 0.14);
+  cursor: pointer;
+}
+
+.sky-load-more:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.sky-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(255, 247, 232, 0.8);
+  font-size: 13px;
 }
 
 @keyframes meteor-flight {
@@ -1443,7 +2233,9 @@ h1 {
 }
 
 @keyframes wish-pulse {
-  50% { transform: scale(1.25); opacity: 0.72; }
+  0%,
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.72; }
 }
 
 /* Animation */
@@ -1593,9 +2385,24 @@ h1 {
   }
 }
 
+@media (max-width: 600px) {
+  .shared-sky-field {
+    height: 440px;
+  }
+
+  .sky-error {
+    flex-direction: column;
+  }
+
+  .sky-wish-note {
+    padding: 26px 22px;
+  }
+}
+
 /* Small phones */
 @media (max-width: 700px) {
-  .home {
+  .home,
+  .hero {
     background-position: 57% center;
   }
 
@@ -1740,6 +2547,103 @@ h1 {
 
   .project-info > p {
     min-height: 0;
+  }
+
+  .building-sky {
+    padding: 34px 18px 64px;
+  }
+
+  .building-sky-heading {
+    padding: 0 8px;
+  }
+
+  .building-sky-heading h1 {
+    font-size: clamp(38px, 11vw, 48px);
+    line-height: 1;
+  }
+
+  .back-to-projects {
+    margin-bottom: 20px;
+  }
+
+  .cloud-scape {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 38px;
+    margin-top: 70px;
+    padding-bottom: 24px;
+  }
+
+  .explorer-cloud {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: min(80vw, 300px);
+    min-height: 142px;
+  }
+
+  .explorer-cloud:nth-of-type(even) {
+    align-self: flex-start;
+    margin-left: 2vw;
+  }
+
+  .explorer-cloud:nth-of-type(odd) {
+    align-self: flex-end;
+    margin-right: 2vw;
+  }
+
+  .painted-cloud {
+    width: 260px;
+  }
+
+  .placeholder-cloud {
+    width: min(var(--placeholder-size), 34vw);
+    opacity: 0.38;
+  }
+
+  .sky-panel-layer {
+    inset: 0;
+    z-index: 11;
+    align-items: start;
+    padding: 18px;
+  }
+
+  .sky-content-panel {
+    max-height: calc(100svh - 36px);
+    margin: auto 0;
+    padding: 30px 22px 26px;
+    border-radius: 24px;
+  }
+
+  .sky-panel-item {
+    grid-template-columns: 1fr;
+  }
+
+  .sky-panel-item img {
+    width: 100%;
+  }
+
+  .scrapbook-project {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 16px;
+  }
+
+  .photo-gallery {
+    columns: 1;
+  }
+
+  .video-grid,
+  .small-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-lightbox {
+    padding: 14px;
   }
 
   .writing-section {

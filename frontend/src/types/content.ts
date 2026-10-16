@@ -4,7 +4,8 @@ export type Project = {
   description: string
   tags: string[]
   github: string
-  demo: string
+  repositoryType?: 'github' | 'bitbucket'
+  demo?: string
   accent: 'rose' | 'violet'
 }
 

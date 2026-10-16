@@ -13,10 +13,14 @@ export function ProjectsSection() {
       <div className="project-grid">
         {projects.map((project) => <ProjectCard project={project} key={project.title} />)}
 
-        <article className="project-card future-card">
+        <a
+          className="project-card future-card future-card-link"
+          href="#/more-building"
+          aria-label="Explore more of what I’m building"
+        >
           <div className="project-visual future">
             <span className="card-sparkle" aria-hidden="true">✦</span>
-            <span className="project-number">03</span>
+            <span className="project-number">04</span>
             <div className="visual-orbit" aria-hidden="true" />
           </div>
           <div className="project-info">
@@ -24,7 +28,7 @@ export function ProjectsSection() {
             <p>A little space for future projects—ideas currently drifting in the clouds.</p>
             <div className="project-tags"><span>Coming soon</span></div>
           </div>
-        </article>
+        </a>
       </div>
     </section>
   )

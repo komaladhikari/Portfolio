@@ -9,6 +9,7 @@ import { WishProvider } from './hooks/useWishStore'
 import { AboutSection } from './sections/AboutSection'
 import { ContactSection } from './sections/ContactSection'
 import { HeroSection } from './sections/HeroSection'
+import { MoreBuildingSky } from './sections/MoreBuildingSky'
 import { ProjectsSection } from './sections/ProjectsSection'
 import { ResearchSection } from './sections/ResearchSection'
 import { SharedSkySection } from './sections/SharedSkySection'
@@ -28,6 +29,7 @@ function Portfolio() {
   const pages: Partial<Record<RouteName, ReactNode>> = {
     about: <AboutSection />,
     projects: <ProjectsSection />,
+    'more-building': <MoreBuildingSky />,
     research: <ResearchSection />,
     writing: <WritingSection />,
     contact: <ContactSection />,
