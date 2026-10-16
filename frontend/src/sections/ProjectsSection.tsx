@@ -16,7 +16,7 @@ export function ProjectsSection() {
         <article className="project-card future-card">
           <div className="project-visual future">
             <span className="card-sparkle" aria-hidden="true">✦</span>
-            <span className="project-number">03</span>
+            <span className="project-number">04</span>
             <div className="visual-orbit" aria-hidden="true" />
           </div>
           <div className="project-info">
