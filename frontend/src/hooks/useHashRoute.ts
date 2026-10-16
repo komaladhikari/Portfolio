@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-export type RouteName = 'home' | 'about' | 'projects' | 'research' | 'writing' | 'shared-sky' | 'contact'
+export type RouteName = 'home' | 'about' | 'projects' | 'more-building' | 'research' | 'writing' | 'shared-sky' | 'contact'
 
 function readRoute(): RouteName {
   const route = window.location.hash.replace(/^#\/?/, '').split('?')[0] || 'home'
-  const routes: RouteName[] = ['home', 'about', 'projects', 'research', 'writing', 'shared-sky', 'contact']
+  const routes: RouteName[] = ['home', 'about', 'projects', 'more-building', 'research', 'writing', 'shared-sky', 'contact']
   return routes.includes(route as RouteName) ? route as RouteName : 'home'
 }
 
