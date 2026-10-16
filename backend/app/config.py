@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     debug: bool = False
     database_url: str = "sqlite:///./somewhere_star.db"
-    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173,https://portfolio-liard-eta-89.vercel.app"
     allowed_hosts: str = "localhost,127.0.0.1,testserver"
     wish_submit_rate_limit: int = Field(default=10, gt=0)
     wish_grant_rate_limit: int = Field(default=30, gt=0)

@@ -18,6 +18,22 @@ def test_cors_allows_local_frontend() -> None:
     assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
 
 
+def test_cors_allows_deployed_frontend() -> None:
+    origin = "https://portfolio-liard-eta-89.vercel.app"
+    with TestClient(app) as client:
+        response = client.options(
+            "/api/wishes",
+            headers={
+                "Origin": origin,
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "Content-Type",
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == origin
+
+
 def test_cors_allows_wish_deletion_from_local_frontend() -> None:
     with TestClient(app) as client:
         response = client.options(
