@@ -14,9 +14,9 @@ export const projects: Project[] = [
     number: '02',
     title: 'Garage',
     description: 'A software engineering project focused on identifying bottlenecks in application request flows.',
-    tags: ['Python', 'Tracing', 'Performance'],
-    github: 'https://github.com/your-username/garage',
-    demo: 'https://example.com/garage-demo',
+    tags: ['Angular', 'Python', 'Spring Boot'],
+    github: 'https://bitbucket.org/cs3398-jawa-f26/cloud-garage/src/main/',
+    repositoryType: 'bitbucket',
     accent: 'rose',
   },
   {
