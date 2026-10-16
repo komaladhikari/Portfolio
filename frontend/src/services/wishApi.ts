@@ -11,6 +11,7 @@ type WishStatusResponse = {
   granted_at: string | null
 }
 type GrantedWish = { id: string; status: WishStatus; granted_at: string }
+type DeletedWish = { id: string; deleted: boolean }
 export type SharedSkyResponse = {
   stars: SkyWish[]
   limit: number
@@ -62,6 +63,13 @@ export function getWishStatus(wishId: string, claimToken: string) {
 export function grantWish(wishId: string, claimToken: string) {
   return request<GrantedWish>(`/api/wishes/${encodeURIComponent(wishId)}/grant`, {
     method: 'POST',
+    headers: { 'X-Claim-Token': claimToken },
+  })
+}
+
+export function deleteWish(wishId: string, claimToken: string) {
+  return request<DeletedWish>(`/api/wishes/${encodeURIComponent(wishId)}`, {
+    method: 'DELETE',
     headers: { 'X-Claim-Token': claimToken },
   })
 }

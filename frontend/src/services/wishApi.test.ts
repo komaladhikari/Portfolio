@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   WishApiError,
   createWish,
+  deleteWish,
   getSharedSky,
   getWishStatus,
   grantWish,
@@ -46,15 +47,22 @@ describe('wish API', () => {
       .mockResolvedValueOnce(jsonResponse({
         id: 'wish-id', status: 'granted', granted_at: 'later',
       }))
+      .mockResolvedValueOnce(jsonResponse({ id: 'wish-id', deleted: true }))
 
     await getWishStatus('wish-id', 'private-token')
     await grantWish('wish-id', 'private-token')
+    await deleteWish('wish-id', 'private-token')
 
     const calls = vi.mocked(fetch).mock.calls
     expect(calls[0][0]).not.toContain('private-token')
     expect(calls[1][0]).not.toContain('private-token')
+    expect(calls[2][0]).not.toContain('private-token')
     expect(calls[0][1]?.headers).toEqual({ 'X-Claim-Token': 'private-token' })
     expect(calls[1][1]?.headers).toEqual({ 'X-Claim-Token': 'private-token' })
+    expect(calls[2][1]).toEqual(expect.objectContaining({
+      method: 'DELETE',
+      headers: { 'X-Claim-Token': 'private-token' },
+    }))
   })
 
   it('loads public stars without credentials', async () => {

@@ -48,26 +48,25 @@ button {
 }
 
 .home::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    180deg,
-    rgba(99, 88, 157, 0.14) 0%,
-    transparent 35%,
-    rgba(221, 161, 203, 0.12) 100%
-  );
+  content: none;
 }
 
 .route-home,
 .route-shared-sky {
-  background-color: #41375f;
-  background-size:
-    100% 100svh,
-    max(100%, calc(100svh * 1.9048)) auto;
+  background: #514263;
+}
+
+.home-journey {
+  background-color: #514263;
+  background-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(137, 114, 148, 0.2) 0%,
+    rgba(137, 114, 148, 0.08) 28%,
+    rgba(137, 114, 148, 0) 58%
+  );
+  background-size: 100% 125svh;
   background-repeat: no-repeat;
-  background-position: top center, top center;
+  background-position: top center;
 }
 
 .route-page-shell {
@@ -98,20 +97,11 @@ button {
   height: clamp(280px, 34vw, 470px);
   overflow: hidden;
   margin-top: -1px;
-  background: linear-gradient(
-    180deg,
-    rgba(182, 157, 214, 0) 0%,
-    rgba(143, 120, 182, 0.62) 33%,
-    rgba(89, 71, 129, 0.9) 70%,
-    #41375f 100%
-  );
+  background: transparent;
 }
 
 .sky-transition::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% -10%, rgba(230, 185, 221, 0.28), transparent 58%);
+  content: none;
 }
 
 .constellation-map {
@@ -312,6 +302,7 @@ button {
   display: grid;
   place-items: center;
   padding: 112px 24px 64px;
+  background: var(--hero-image) center / cover no-repeat;
   text-align: center;
 }
 
@@ -1379,9 +1370,7 @@ h1 {
   min-height: 100svh;
   padding: 80px 6vw 64px;
   color: #fff7e8;
-  background:
-    radial-gradient(circle at 70% 25%, rgba(166, 154, 219, 0.24), transparent 32%),
-    linear-gradient(180deg, #41375f, #241d3e);
+  background: transparent;
   text-align: center;
   scroll-margin-top: 76px;
 }
@@ -1487,7 +1476,7 @@ h1 {
   transform: translate(-50%, -50%);
 }
 
-.sky-wish-note button {
+.sky-wish-note-close {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -1495,6 +1484,27 @@ h1 {
   color: #fff7e8;
   background: transparent;
   cursor: pointer;
+}
+
+.sky-wish-delete {
+  min-height: 38px;
+  margin-top: 22px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 247, 232, 0.35);
+  border-radius: 999px;
+  color: #fff7e8;
+  background: rgba(255, 247, 232, 0.08);
+  cursor: pointer;
+}
+
+.sky-wish-delete:hover:not(:disabled),
+.sky-wish-delete:focus-visible {
+  background: rgba(255, 247, 232, 0.16);
+}
+
+.sky-wish-delete:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .sky-wish-note span {
@@ -1728,7 +1738,8 @@ h1 {
 
 /* Small phones */
 @media (max-width: 700px) {
-  .home {
+  .home,
+  .hero {
     background-position: 57% center;
   }
 

@@ -34,6 +34,11 @@ class WishGranted(BaseModel):
     granted_at: datetime
 
 
+class WishDeleted(BaseModel):
+    id: uuid.UUID
+    deleted: bool
+
+
 class SkyStar(BaseModel):
     id: uuid.UUID
     x: float

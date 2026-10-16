@@ -11,6 +11,7 @@ import {
 import {
   WishApiError,
   createWish,
+  deleteWish as deleteWishRequest,
   getSharedSky,
   getWishStatus,
   grantWish as grantWishRequest,
@@ -29,6 +30,7 @@ type WishStore = {
   error: string | null
   submitWish: (text: string, isPrivate: boolean) => Promise<void>
   grantWish: (wishId: string) => Promise<boolean>
+  deleteWish: (wishId: string) => Promise<boolean>
   clearError: () => void
   refreshSky: () => Promise<void>
   loadMoreSky: () => Promise<void>
@@ -208,6 +210,31 @@ export function WishProvider({ children }: { children: ReactNode }) {
     }
   }, [credentials, refreshSky])
 
+  const deleteWish = useCallback(async (wishId: string) => {
+    const credential = credentials.find((item) => item.id === wishId)
+    if (!credential) {
+      setError('The private key for this wish is missing.')
+      return false
+    }
+
+    setError(null)
+    try {
+      await deleteWishRequest(wishId, credential.claimToken)
+      setCredentials((current) => current.filter((item) => item.id !== wishId))
+      setWishes((current) => current.filter((wish) => wish.id !== wishId))
+      setGrantedWishes((current) => current.filter((wish) => wish.id !== wishId))
+      await refreshSky()
+      return true
+    } catch (requestError) {
+      if (requestError instanceof WishApiError && [403, 404].includes(requestError.status)) {
+        setCredentials((current) => current.filter((item) => item.id !== wishId))
+        setWishes((current) => current.filter((wish) => wish.id !== wishId))
+      }
+      setError(errorMessage(requestError))
+      return false
+    }
+  }, [credentials, refreshSky])
+
   const value = useMemo<WishStore>(() => ({
     wishes,
     pendingWish: wishes.find((wish) => wish.status === 'pending'),
@@ -219,6 +246,7 @@ export function WishProvider({ children }: { children: ReactNode }) {
     error,
     submitWish,
     grantWish,
+    deleteWish,
     clearError,
     refreshSky,
     loadMoreSky,
@@ -232,6 +260,7 @@ export function WishProvider({ children }: { children: ReactNode }) {
     error,
     submitWish,
     grantWish,
+    deleteWish,
     clearError,
     refreshSky,
     loadMoreSky,

@@ -31,6 +31,10 @@ class WishGrantError(Exception):
     pass
 
 
+class WishDeletionError(Exception):
+    pass
+
+
 class SkyRetrievalError(Exception):
     pass
 
@@ -134,6 +138,23 @@ def grant_wish(db: Session, wish_id: uuid.UUID, claim_token: str) -> Wish:
     except SQLAlchemyError as error:
         db.rollback()
         raise WishGrantError from error
+
+
+def delete_wish(db: Session, wish_id: uuid.UUID, claim_token: str) -> None:
+    try:
+        wish = db.scalar(select(Wish).where(Wish.id == wish_id))
+        if wish is None:
+            raise WishNotFoundError
+        if not verify_claim_token(claim_token, wish.claim_token_hash):
+            raise InvalidClaimTokenError
+
+        db.delete(wish)
+        db.commit()
+    except (WishNotFoundError, InvalidClaimTokenError):
+        raise
+    except SQLAlchemyError as error:
+        db.rollback()
+        raise WishDeletionError from error
 
 
 def list_sky_wishes(db: Session, limit: int, offset: int) -> list[Wish]:

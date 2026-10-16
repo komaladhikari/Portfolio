@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import { SkyWishText } from './SharedSkySection'
+import { isWishOwned, SkyWishText } from './SharedSkySection'
 
 
 describe('Shared Sky wish text', () => {
@@ -12,5 +12,10 @@ describe('Shared Sky wish text', () => {
 
     expect(html).not.toContain('<img')
     expect(html).toBe('<p>&lt;img src=x onerror=&quot;alert(1)&quot;&gt;</p>')
+  })
+
+  it('allows deletion only for wishes owned by this browser', () => {
+    expect(isWishOwned('owned-wish', ['owned-wish'])).toBe(true)
+    expect(isWishOwned('someone-elses-wish', ['owned-wish'])).toBe(false)
   })
 })

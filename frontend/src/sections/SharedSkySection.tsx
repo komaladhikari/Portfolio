@@ -14,9 +14,15 @@ export function SkyWishText({ text }: { text: string }) {
   return <p>{text}</p>
 }
 
+export function isWishOwned(wishId: string, ownedWishIds: string[]) {
+  return ownedWishIds.includes(wishId)
+}
+
 export function SharedSkySection() {
   const {
     grantedWishes,
+    wishes,
+    deleteWish,
     hasMoreSky,
     isLoadingMoreSky,
     isLoadingSky,
@@ -25,7 +31,22 @@ export function SharedSkySection() {
     skyError,
   } = useWishStore()
   const [selected, setSelected] = useState<SkyWish | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
   const displayedWishes = useMemo(() => layoutSkyStars(grantedWishes), [grantedWishes])
+  const selectedIsOwned = selected
+    ? isWishOwned(selected.id, wishes.map((wish) => wish.id))
+    : false
+
+  async function removeSelectedWish() {
+    if (!selected || isDeleting) return
+    const confirmed = window.confirm('Delete this wish permanently? This cannot be undone.')
+    if (!confirmed) return
+
+    setIsDeleting(true)
+    const deleted = await deleteWish(selected.id)
+    setIsDeleting(false)
+    if (deleted) setSelected(null)
+  }
 
   useEffect(() => {
     if (!selected) return
@@ -63,9 +84,19 @@ export function SharedSkySection() {
         )}
         {selected && (
           <div className="sky-wish-note" role="dialog" aria-modal="false" aria-labelledby="selected-wish-title">
-            <button onClick={() => setSelected(null)} aria-label="Close">×</button>
+            <button className="sky-wish-note-close" onClick={() => setSelected(null)} aria-label="Close">×</button>
             <span id="selected-wish-title">Someone wished</span>
             <SkyWishText text={selected.text} />
+            {selectedIsOwned && (
+              <button
+                className="sky-wish-delete"
+                type="button"
+                onClick={() => void removeSelectedWish()}
+                disabled={isDeleting}
+              >
+                {isDeleting ? 'Deleting...' : 'Delete my wish'}
+              </button>
+            )}
           </div>
         )}
       </div>

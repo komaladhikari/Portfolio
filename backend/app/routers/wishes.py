@@ -7,14 +7,16 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.rate_limit import limit_wish_grant, limit_wish_submission
-from app.schemas import WishCreate, WishCreated, WishGranted, WishStatusResponse
+from app.schemas import WishCreate, WishCreated, WishDeleted, WishGranted, WishStatusResponse
 from app.services import (
     InvalidClaimTokenError,
     WishCreationError,
+    WishDeletionError,
     WishGrantError,
     WishNotFoundError,
     WishRetrievalError,
     create_wish,
+    delete_wish,
     grant_wish,
     get_wish_status,
 )
@@ -108,3 +110,30 @@ def grant_wish_endpoint(
         status=wish.status,
         granted_at=wish.granted_at,
     )
+
+
+@router.delete("/{wish_id}", response_model=WishDeleted)
+def delete_wish_endpoint(
+    wish_id: uuid.UUID,
+    claim_token: ClaimToken,
+    db: DatabaseSession,
+) -> WishDeleted:
+    try:
+        delete_wish(db, wish_id, claim_token)
+    except WishNotFoundError as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Wish not found.",
+        ) from error
+    except InvalidClaimTokenError as error:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid claim token.",
+        ) from error
+    except WishDeletionError as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Wish could not be deleted.",
+        ) from error
+
+    return WishDeleted(id=wish_id, deleted=True)
