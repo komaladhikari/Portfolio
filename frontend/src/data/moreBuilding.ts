@@ -84,9 +84,9 @@ export const personalInterests: PersonalInterest[] = [
   { title: 'Add a hobby or interest', description: 'Add an image, a short description, and an optional link.' },
 ]
 
-// Replace these clearly labeled placeholders with your own facts.
 export const funFacts = [
-  'Fun fact placeholder — add something small and personal here.',
-  'Fun fact placeholder — share another detail visitors would not expect.',
-  'Fun fact placeholder — this can be thoughtful, playful, or wonderfully ordinary.',
+  `I've never actually seen a shooting star. But I've romanticized the idea of seeing one so much that I ended up creating one digitally. Hence, this entire website.`,
+  `I get offended embarrassingly fast. So please choose your words wisely. I'm kidding. (Am I?)`,
+  `I LOVE Modern Family. That's it. That's the fun fact. I could probably watch it forever and still laugh at the same jokes.`,
+  `I'm as curious as a cat. Not in a “wow, that's fascinating, let me dig deeper” way, but more in a “FUCK NOOO, now I HAVE to know how this works” way.`,
 ]
