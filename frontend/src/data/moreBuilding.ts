@@ -74,7 +74,12 @@ export const galleryPhotos: GalleryPhoto[] = [
 export const youtubeChannelUrl = 'https://www.youtube.com/@komaladh33'
 
 // Add a YouTube ID or full URL. Thumbnails are generated from IDs unless overridden.
-export const selectedVideos: YouTubeVideo[] = []
+export const selectedVideos: YouTubeVideo[] = [
+  {
+    title: 'Featured YouTube video',
+    youtubeId: 'F0c2GMrzYcQ',
+  },
+]
 
 export const littleIdeas: LittleIdea[] = [
   { title: 'Add an idea', description: 'Write a short note about something you might like to build someday.', status: 'Just an idea' },

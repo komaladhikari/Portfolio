@@ -57,6 +57,18 @@ function YouTubeContent() {
     {selectedVideos.length ? <div className="video-grid">{selectedVideos.map((video) => {
       const href = video.url ?? `https://www.youtube.com/watch?v=${video.youtubeId}`
       const thumbnail = video.thumbnail ?? (video.youtubeId ? `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` : undefined)
+      if (video.youtubeId) return <article className="video-card" key={video.youtubeId}>
+        <div className="video-embed">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
+            title={video.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+        <span>{video.title}</span>
+      </article>
       return <a href={href} target="_blank" rel="noreferrer" key={href}>
         {thumbnail ? <img src={thumbnail} alt="" /> : <ImagePlaceholder label="Add a video thumbnail" />}
         <span>{video.title}</span>
