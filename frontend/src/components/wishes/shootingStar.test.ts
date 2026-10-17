@@ -11,9 +11,9 @@ import {
 
 
 describe('shooting-star lifecycle helpers', () => {
-  it('keeps randomized appearance delays between 7 and 40 seconds', () => {
+  it('keeps randomized appearance delays between 2 and 8 seconds', () => {
     expect(appearanceDelay(0)).toBe(MIN_APPEARANCE_DELAY_MS)
-    expect(appearanceDelay(0.5)).toBe(23_500)
+    expect(appearanceDelay(0.5)).toBe(5_000)
     expect(appearanceDelay(1)).toBe(MAX_APPEARANCE_DELAY_MS)
   })
 

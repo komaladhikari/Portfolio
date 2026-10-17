@@ -1,5 +1,5 @@
-export const MIN_APPEARANCE_DELAY_MS = 7_000
-export const MAX_APPEARANCE_DELAY_MS = 40_000
+export const MIN_APPEARANCE_DELAY_MS = 2_000
+export const MAX_APPEARANCE_DELAY_MS = 8_000
 
 export type ShootingStarFlight = {
   id: number
