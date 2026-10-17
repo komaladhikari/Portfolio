@@ -18,6 +18,20 @@ def test_cors_allows_local_frontend() -> None:
     assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
 
 
+def test_cors_allows_vite_fallback_port() -> None:
+    with TestClient(app) as client:
+        response = client.options(
+            "/api/writing",
+            headers={
+                "Origin": "http://localhost:5174",
+                "Access-Control-Request-Method": "GET",
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:5174"
+
+
 def test_cors_allows_deployed_frontend() -> None:
     origin = "https://portfolio-liard-eta-89.vercel.app"
     with TestClient(app) as client:
