@@ -51,3 +51,14 @@ class SharedSkyResponse(BaseModel):
     stars: list[SkyStar]
     limit: int
     offset: int
+
+
+class WritingPost(BaseModel):
+    title: str
+    excerpt: str
+    url: str
+    published_at: datetime
+
+
+class WritingFeedResponse(BaseModel):
+    posts: list[WritingPost]

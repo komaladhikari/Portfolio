@@ -10,8 +10,8 @@ export type Project = {
 }
 
 export type WritingPost = {
-  status: string
   title: string
   excerpt: string
   url: string
+  publishedAt: string
 }
