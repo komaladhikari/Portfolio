@@ -2287,6 +2287,122 @@ h1 {
   font-size: 13px;
 }
 
+.beneath-sky-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 28px;
+  color: rgba(255, 247, 232, 0.72);
+  font-family: 'Gilda Display', serif;
+  font-size: 18px;
+  text-decoration: none;
+  transition: color 180ms ease, gap 180ms ease;
+}
+
+.beneath-sky-link:hover,
+.beneath-sky-link:focus-visible {
+  gap: 13px;
+  color: #fff7e8;
+}
+
+.beneath-sky-page {
+  padding-bottom: clamp(86px, 10vw, 128px);
+}
+
+.beneath-sky-back {
+  display: inline-block;
+  margin-bottom: 42px;
+  color: #67549c;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.wish-journey-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 48px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wish-journey-list li {
+  position: relative;
+  min-height: 220px;
+  padding: 24px;
+  border: 1px solid rgba(103, 84, 156, 0.16);
+  border-radius: 22px;
+  background: rgba(245, 237, 255, 0.58);
+  box-shadow: 0 18px 45px rgba(70, 50, 112, 0.08);
+}
+
+.wish-journey-list li:not(:nth-child(3n))::after {
+  content: '→';
+  position: absolute;
+  z-index: 1;
+  top: 24px;
+  right: -12px;
+  color: rgba(103, 84, 156, 0.48);
+}
+
+.wish-journey-number {
+  color: #7463ac;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+.wish-journey-list h2 {
+  margin: 18px 0 8px;
+  font-family: 'Gilda Display', serif;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.wish-journey-list p {
+  margin: 0 0 18px;
+  color: rgba(64, 53, 84, 0.74);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.wish-journey-list code {
+  color: #67549c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.wish-journey-privacy {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 22px 0 0;
+  padding: 24px 28px;
+  border: 1px solid rgba(103, 84, 156, 0.16);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.wish-journey-privacy > span {
+  color: #7463ac;
+  font-size: 28px;
+}
+
+.wish-journey-privacy h2 {
+  margin: 0;
+  font-family: 'Gilda Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.wish-journey-privacy p {
+  margin: 7px 0 0;
+  color: rgba(64, 53, 84, 0.72);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 @keyframes meteor-flight {
   0% {
     opacity: 0;
@@ -2469,6 +2585,41 @@ h1 {
 
   .sky-wish-note {
     padding: 26px 22px;
+  }
+
+  .wish-journey-list {
+    grid-template-columns: 1fr;
+  }
+
+  .wish-journey-list li {
+    min-height: 0;
+  }
+
+  .wish-journey-list li:not(:nth-child(3n))::after,
+  .wish-journey-list li:not(:last-child)::after {
+    content: '↓';
+    top: auto;
+    right: 22px;
+    bottom: -13px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .wish-journey-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .wish-journey-list li:not(:nth-child(3n))::after {
+    content: none;
+  }
+
+  .wish-journey-list li:not(:nth-child(2n))::after {
+    content: '→';
+    position: absolute;
+    z-index: 1;
+    top: 24px;
+    right: -12px;
+    color: rgba(103, 84, 156, 0.48);
   }
 }
 

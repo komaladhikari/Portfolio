@@ -118,6 +118,10 @@ export function SharedSkySection() {
           </button>
         )}
       </div>
+
+      <a className="beneath-sky-link" href="#/beneath-the-sky">
+        Beneath the Sky <span aria-hidden="true">→</span>
+      </a>
     </section>
   )
 }

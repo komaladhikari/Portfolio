@@ -7,6 +7,7 @@ import { useHashRoute, type RouteName } from './hooks/useHashRoute'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import { WishProvider } from './hooks/useWishStore'
 import { AboutSection } from './sections/AboutSection'
+import { BeneathSkySection } from './sections/BeneathSkySection'
 import { ContactSection } from './sections/ContactSection'
 import { HeroSection } from './sections/HeroSection'
 import { MoreBuildingSky } from './sections/MoreBuildingSky'
@@ -30,6 +31,7 @@ function Portfolio() {
     about: <AboutSection />,
     projects: <ProjectsSection />,
     'more-building': <MoreBuildingSky />,
+    'beneath-the-sky': <BeneathSkySection />,
     research: <ResearchSection />,
     writing: <WritingSection />,
     contact: <ContactSection />,
